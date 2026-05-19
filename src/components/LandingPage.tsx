@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { motion } from 'framer-motion'
 import { AnimatedGradientText } from '@/components/magicui/animated-gradient-text'
@@ -60,11 +60,31 @@ const FEATURES = [
   },
 ]
 
+const SAMPLE_OUTPUT: Record<string, { short: string; full: string }> = {
+  'Steam': {
+    short: 'An epic dark fantasy RPG where every choice shapes the fate of a dying world. Forge powerful alliances, master arcane combat, and face the consequences of your decisions.',
+    full: 'Descend into a world consumed by shadow. Forge alliances with morally complex factions, master a deep dark arts combat system, and confront an ancient evil that has slumbered for millennia. Every decision echoes — who will you become when the light fades?\n\n⚠️ AI Disclosure: This game\'s store description was generated with AI assistance and reviewed by the developer.',
+  },
+  'itch.io': {
+    short: 'A dark fantasy RPG with deep choices and brutal consequences. Build alliances, master dark arts, survive a dying world.',
+    full: 'The world is ending — and every choice you make brings it closer to the edge. Descend into shadow-consumed lands, build unlikely alliances, and wield forbidden dark arts against an ancient evil. No heroes here. Just survivors making hard calls in a world that\'s already lost.',
+  },
+  'App Store': {
+    short: 'Master arcane combat and forge alliances in a dark fantasy RPG. Every choice shapes the fate of a dying world.',
+    full: 'DARK FANTASY RPG — CHOICES THAT MATTER\n\nDescend into a dying world consumed by shadow. Build alliances, master dark arts combat, and face an ancient evil that has slumbered for millennia.\n\n• Deep choice-driven story\n• Arcane combat system\n• Morally complex factions\n• Stunning dark fantasy world',
+  },
+  'Google Play': {
+    short: 'An immersive dark fantasy RPG. Shape the fate of a dying world through every alliance you forge and every choice you make.',
+    full: 'Descend into darkness in this epic choice-driven RPG. Master arcane combat, build alliances with morally complex factions, and confront an ancient evil awakening in the shadows.\n\nEvery decision you make echoes across the dying world. Are you ready to face the consequences?\n\n• Rich dark fantasy narrative\n• Strategic arcane combat\n• Multiple faction alliances\n• Consequence-driven gameplay',
+  },
+}
+
 const FREE_FEATURES = ['3 generations per day', 'All 4 platforms', 'Steam AI disclosure text', 'No credit card needed']
 const PRO_FEATURES = ['Unlimited generations', 'All 4 platforms', 'Steam AI disclosure text', 'Saved history']
 
 export default function LandingPage() {
   const supabase = createClient()
+  const [samplePlatform, setSamplePlatform] = useState('Steam')
 
   const handleLogin = async () => {
     await supabase.auth.signInWithOAuth({
@@ -245,31 +265,35 @@ export default function LandingPage() {
           ))}
         </div>
 
-        {/* Sample output card */}
+        {/* Sample output card — interactive */}
         <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={1.2}>
-          <Card className="relative bg-card border-border/40 overflow-hidden hover:border-white/20 transition-all duration-300">
+          <Card className="relative bg-card border-border/40 overflow-hidden">
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
             <CardContent className="p-7 relative">
-              <div className="flex items-center gap-2 mb-6">
+              <div className="flex flex-wrap items-center gap-2 mb-6">
                 <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Sample output</span>
-                <div className="h-px flex-1 bg-border/40" />
-                <div className="flex gap-2">
-                  {['Steam', 'itch.io', 'App Store', 'Google Play'].map((p, i) => (
-                    <span key={p} className={`text-xs pb-0.5 ${i === 0 ? 'text-white border-b border-white' : 'text-muted-foreground'}`}>{p}</span>
+                <div className="h-px flex-1 bg-border/40 hidden sm:block" />
+                <div className="flex gap-1">
+                  {Object.keys(SAMPLE_OUTPUT).map(p => (
+                    <button
+                      key={p}
+                      onClick={() => setSamplePlatform(p)}
+                      className={`text-xs px-3 py-1 rounded-full border transition-all duration-200 ${samplePlatform === p ? 'bg-white text-black border-white font-semibold' : 'border-white/10 text-muted-foreground hover:border-white/30 hover:text-white'}`}
+                    >{p}</button>
                   ))}
                 </div>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-3">
                   <div className="text-xs text-muted-foreground uppercase tracking-wide font-semibold">Short Description</div>
-                  <div className="bg-background/60 border border-border/40 rounded-xl p-4 text-sm text-foreground/80 leading-relaxed">
-                    An epic dark fantasy RPG where every choice shapes the fate of a dying world. Forge powerful alliances, master arcane combat, and face the consequences of your decisions.
+                  <div className="bg-background/60 border border-border/40 rounded-xl p-4 text-sm text-foreground/80 leading-relaxed min-h-20">
+                    {SAMPLE_OUTPUT[samplePlatform].short}
                   </div>
                 </div>
                 <div className="space-y-3">
                   <div className="text-xs text-muted-foreground uppercase tracking-wide font-semibold">Full Description</div>
-                  <div className="bg-background/60 border border-border/40 rounded-xl p-4 text-sm text-foreground/80 leading-relaxed line-clamp-4">
-                    Descend into a world consumed by shadow. Forge alliances with morally complex factions, master a deep dark arts combat system, and confront an ancient evil that has slumbered for millennia. Every decision echoes — who will you become when the light fades?
+                  <div className="bg-background/60 border border-border/40 rounded-xl p-4 text-sm text-foreground/80 leading-relaxed whitespace-pre-line line-clamp-6">
+                    {SAMPLE_OUTPUT[samplePlatform].full}
                   </div>
                 </div>
               </div>
