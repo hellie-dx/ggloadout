@@ -152,65 +152,6 @@ export default function LandingPage() {
         </motion.p>
 
         {/* Product screenshot mockup */}
-        <motion.div
-          className="relative mt-14 rounded-2xl overflow-hidden border border-border/40 shadow-2xl shadow-primary/10"
-          variants={fadeUp} initial="hidden" animate="show" custom={5}
-        >
-          {/* Gradient fade at bottom */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-10 pointer-events-none" />
-
-          {/* Mock app UI */}
-          <div className="bg-card p-6 text-left">
-            {/* Mock header */}
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-border/50">
-              <div className="flex items-center gap-2">
-                <span className="text-primary font-bold">GGLoadout</span>
-                <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">Beta</span>
-              </div>
-              <div className="text-xs text-muted-foreground">Sign out</div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              {/* Mock form */}
-              <div className="space-y-3">
-                <div className="text-sm font-semibold">Your Game Details</div>
-                {['Game Name', 'Genre', 'Core Gameplay', 'Unique Angle'].map(f => (
-                  <div key={f} className="h-9 rounded-lg bg-background/80 border border-border/40 px-3 flex items-center">
-                    <span className="text-xs text-muted-foreground/50">{f}...</span>
-                  </div>
-                ))}
-                <div className="flex gap-2 flex-wrap">
-                  {['Dark', 'Epic', 'Chill', 'Funny'].map(t => (
-                    <span key={t} className={`text-xs px-2 py-1 rounded-full border ${t === 'Epic' ? 'bg-primary text-primary-foreground border-primary' : 'border-border/50 text-muted-foreground'}`}>{t}</span>
-                  ))}
-                </div>
-                <div className="w-full bg-primary text-primary-foreground text-xs py-2 rounded-lg text-center font-semibold">
-                  ✨ Generate Copy
-                </div>
-              </div>
-
-              {/* Mock output */}
-              <div className="space-y-3">
-                <div className="text-sm font-semibold">Generated Copy</div>
-                <div className="flex gap-2 border-b border-border/40 pb-2">
-                  {['Steam', 'itch.io', 'App Store'].map((p, i) => (
-                    <span key={p} className={`text-xs pb-1 ${i === 0 ? 'text-primary border-b-2 border-primary' : 'text-muted-foreground'}`}>{p}</span>
-                  ))}
-                </div>
-                <div className="space-y-2">
-                  <div className="text-xs text-muted-foreground uppercase tracking-wide">Short Description</div>
-                  <div className="bg-background/80 border border-border/40 rounded-lg p-2 text-xs text-foreground/70 leading-relaxed">
-                    An epic dark fantasy RPG where every choice shapes the fate of a dying world...
-                  </div>
-                  <div className="text-xs text-muted-foreground uppercase tracking-wide">Full Description</div>
-                  <div className="bg-background/80 border border-border/40 rounded-lg p-2 text-xs text-foreground/70 leading-relaxed h-16 overflow-hidden">
-                    Descend into a world consumed by shadow. Forge alliances, master dark arts, and confront an ancient evil that has slumbered for millennia...
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </section>
 
       {/* ── MARQUEE ── */}
