@@ -161,7 +161,7 @@ export default function LandingPage() {
           variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}
         >
           <p className="text-sm text-primary font-semibold mb-2 uppercase tracking-wider">Features</p>
-          <h2 className="text-4xl font-bold mb-4">Everything you need to <span style={rgbText}>launch</span></h2>
+          <h2 className="text-4xl font-bold mb-4">Store-ready copy. So you can <span style={rgbText}>focus on shipping.</span></h2>
           <p className="text-muted-foreground max-w-xl mx-auto">Stop spending hours on store pages. GGLoadout handles the copy so you can focus on shipping.</p>
         </motion.div>
 
