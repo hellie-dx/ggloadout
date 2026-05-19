@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
-import GameForm from '@/components/GameForm'
+import GameForm, { GameFormData } from '@/components/GameForm'
 import OutputTabs from '@/components/OutputTabs'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -20,7 +20,7 @@ export default function AppPage() {
     window.location.href = '/'
   }
 
-  const handleGenerate = async (formData: Record<string, unknown>) => {
+  const handleGenerate = async (formData: GameFormData) => {
     setIsLoading(true)
     setError(null)
     setOutput(null)

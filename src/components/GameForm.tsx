@@ -11,7 +11,7 @@ const PLATFORMS = [
   { id: 'googleplay', label: 'Google Play' },
 ]
 
-interface FormData {
+export interface GameFormData {
   gameName: string
   genre: string
   gameplay: string
@@ -23,12 +23,12 @@ interface FormData {
 }
 
 interface GameFormProps {
-  onGenerate: (data: FormData) => void
+  onGenerate: (data: GameFormData) => void
   isLoading: boolean
 }
 
 export default function GameForm({ onGenerate, isLoading }: GameFormProps) {
-  const [form, setForm] = useState<FormData>({
+  const [form, setForm] = useState<GameFormData>({
     gameName: '',
     genre: '',
     gameplay: '',
