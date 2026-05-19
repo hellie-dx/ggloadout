@@ -159,7 +159,7 @@ export default function LandingPage() {
         <motion.div className="text-center mb-12" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
           <p className="text-sm text-primary font-semibold mb-2 uppercase tracking-wider">How it works</p>
           <h2 className="text-4xl font-bold mb-4">Store-ready copy. So you can <span style={rgbText}>focus on shipping.</span></h2>
-          <p className="text-muted-foreground max-w-xl mx-auto">
+          <p className="text-muted-foreground max-w-3xl mx-auto">
             No copywriter, no blank page, no guessing what the platforms want.<br />
             Get correctly formatted copy for Steam, itch.io, App Store, Google Play and more.<br />
             Right character limits, right tone — Ready to paste.
