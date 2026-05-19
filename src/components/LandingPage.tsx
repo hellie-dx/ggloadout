@@ -154,106 +154,139 @@ export default function LandingPage() {
         {/* Product screenshot mockup */}
       </section>
 
-      {/* ── FEATURES BENTO ── */}
+      {/* ── HOW IT WORKS ── */}
       <section className="relative z-10 max-w-5xl mx-auto px-6 py-20">
-        <motion.div
-          className="text-center mb-12"
-          variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}
-        >
-          <p className="text-sm text-primary font-semibold mb-2 uppercase tracking-wider">Features</p>
+        <motion.div className="text-center mb-12" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
+          <p className="text-sm text-primary font-semibold mb-2 uppercase tracking-wider">How it works</p>
           <h2 className="text-4xl font-bold mb-4">Store-ready copy. So you can <span style={rgbText}>focus on shipping.</span></h2>
           <p className="text-foreground/80 font-medium max-w-xl mx-auto mb-2">No copywriter, no blank page, no guessing what the platforms want.</p>
           <p className="text-muted-foreground max-w-xl mx-auto">You describe your game one time. GGLoadout outputs correctly formatted copy for Steam, itch.io, App Store, and Google Play —<br />right character limits, right tone, ready to paste.</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-          {/* Card 1 — wide, core value prop */}
-          <motion.div className="md:col-span-2" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={0}>
-            <motion.div whileHover={{ y: -3, transition: { duration: 0.2 } }} className="h-full">
-              <Card className="relative h-full bg-card border-border/40 overflow-hidden group hover:border-white/20 transition-all duration-300">
-                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <CardContent className="p-7 relative flex flex-col h-full">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><rect x="8" y="3" width="13" height="13" rx="2"/><path d="M5 8H3a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-2"/></svg>
+        {/* 4 step cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+          {[
+            {
+              step: '01',
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
+              title: 'Describe your game',
+              desc: 'Fill in name, genre, gameplay loop, and what makes your game unique.',
+              visual: (
+                <div className="mt-4 space-y-1.5">
+                  {['Game Name', 'Genre', 'Core Gameplay'].map(f => (
+                    <div key={f} className="h-7 rounded-md bg-white/5 border border-white/10 px-2.5 flex items-center">
+                      <span className="text-[10px] text-muted-foreground/50">{f}...</span>
+                    </div>
+                  ))}
+                </div>
+              ),
+            },
+            {
+              step: '02',
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>,
+              title: 'Set the tone',
+              desc: 'Choose the vibe that matches your game — dark, epic, chill, or funny.',
+              visual: (
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {['Dark', 'Epic', 'Chill', 'Funny'].map((t, i) => (
+                    <span key={t} className={`text-[10px] px-2 py-1 rounded-full border ${i === 1 ? 'bg-white text-black border-white font-semibold' : 'border-white/10 text-muted-foreground bg-white/5'}`}>{t}</span>
+                  ))}
+                </div>
+              ),
+            },
+            {
+              step: '03',
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+              title: 'Generate in seconds',
+              desc: 'Hit generate. GGLoadout processes your input and writes the copy instantly.',
+              visual: (
+                <div className="mt-4">
+                  <div className="h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center gap-2">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-3.5 h-3.5 text-white"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    <span className="text-[10px] text-white font-medium">Generate Copy</span>
                   </div>
-                  <h3 className="font-bold text-foreground text-xl mb-2">One form, all platforms</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Fill in your game details once. We format the copy correctly for every platform — right length, right format, ready to paste.</p>
-                  <div className="mt-auto pt-6 flex gap-2 flex-wrap">
-                    {['Steam', 'itch.io', 'App Store', 'Google Play'].map(p => (
-                      <span key={p} className="text-xs px-2.5 py-1 rounded-full border border-white/10 text-muted-foreground bg-white/5">{p}</span>
+                </div>
+              ),
+            },
+            {
+              step: '04',
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><rect x="8" y="3" width="13" height="13" rx="2"/><path d="M5 8H3a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-2"/></svg>,
+              title: 'Pick platform & paste',
+              desc: 'Switch between platforms, copy the output. Done.',
+              visual: (
+                <div className="mt-4 space-y-1.5">
+                  <div className="flex gap-2 border-b border-white/10 pb-1.5">
+                    {['Steam', 'itch.io', 'App Store'].map((p, i) => (
+                      <span key={p} className={`text-[10px] pb-1 ${i === 0 ? 'text-white border-b border-white' : 'text-muted-foreground'}`}>{p}</span>
                     ))}
                   </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </motion.div>
-
-          {/* Card 2 — speed */}
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={0.5}>
-            <motion.div whileHover={{ y: -3, transition: { duration: 0.2 } }} className="h-full">
-              <Card className="relative h-full bg-card border-border/40 overflow-hidden group hover:border-white/20 transition-all duration-300">
+                  <div className="text-[10px] text-muted-foreground leading-relaxed line-clamp-2">An epic dark fantasy RPG where every choice shapes the fate of a dying world...</div>
+                </div>
+              ),
+            },
+          ].map((s, i) => (
+            <motion.div key={s.step} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={i * 0.3}>
+              <Card className="relative h-full bg-card border-border/40 overflow-hidden hover:border-white/20 transition-all duration-300">
                 <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <CardContent className="p-7 relative">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <CardContent className="p-5 relative flex flex-col h-full">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">{s.icon}</div>
+                    <span className="text-xs font-mono text-muted-foreground/40">{s.step}</span>
                   </div>
-                  <h3 className="font-bold text-foreground text-xl mb-2">Launch-ready in seconds</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">No more staring at a blank page. Get professional copy instantly.</p>
+                  <h3 className="font-bold text-foreground text-base mb-1">{s.title}</h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
+                  {s.visual}
                 </CardContent>
               </Card>
             </motion.div>
-          </motion.div>
-
-          {/* Card 3 — Steam compliance */}
-          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={1}>
-            <motion.div whileHover={{ y: -3, transition: { duration: 0.2 } }} className="h-full">
-              <Card className="relative h-full bg-card border-border/40 overflow-hidden group hover:border-white/20 transition-all duration-300">
-                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <CardContent className="p-7 relative">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6l-8-4z"/></svg>
-                  </div>
-                  <h3 className="font-bold text-foreground text-xl mb-2">Steam 2026 compliant</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Auto-generates the AI disclosure text Valve now requires. Stay compliant without the headache.</p>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </motion.div>
-
-          {/* Card 4 — wide, multi-platform */}
-          <motion.div className="md:col-span-2" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={1.5}>
-            <motion.div whileHover={{ y: -3, transition: { duration: 0.2 } }} className="h-full">
-              <Card className="relative h-full bg-card border-border/40 overflow-hidden group hover:border-white/20 transition-all duration-300">
-                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <CardContent className="p-7 relative flex flex-col h-full">
-                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c-3 3-4 6-4 10s1 7 4 10M12 2c3 3 4 6 4 10s-1 7-4 10"/></svg>
-                  </div>
-                  <h3 className="font-bold text-foreground text-xl mb-2">Multi-platform ready</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">Steam, itch.io, App Store, Google Play — each with the right format and character limits.</p>
-                  <div className="mt-auto pt-6 grid grid-cols-2 gap-3">
-                    {[['Steam', '8,000 chars'], ['itch.io', 'No limit'], ['App Store', '4,000 chars'], ['Google Play', '4,000 chars']].map(([name, limit]) => (
-                      <div key={name} className="flex items-center justify-between rounded-lg bg-white/5 border border-white/10 px-3 py-2">
-                        <span className="text-xs font-medium text-foreground">{name}</span>
-                        <span className="text-xs text-muted-foreground">{limit}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </motion.div>
-
+          ))}
         </div>
+
+        {/* Sample output card */}
+        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={1.2}>
+          <Card className="relative bg-card border-border/40 overflow-hidden hover:border-white/20 transition-all duration-300">
+            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+            <CardContent className="p-7 relative">
+              <div className="flex items-center gap-2 mb-6">
+                <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Sample output</span>
+                <div className="h-px flex-1 bg-border/40" />
+                <div className="flex gap-2">
+                  {['Steam', 'itch.io', 'App Store', 'Google Play'].map((p, i) => (
+                    <span key={p} className={`text-xs pb-0.5 ${i === 0 ? 'text-white border-b border-white' : 'text-muted-foreground'}`}>{p}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wide font-semibold">Short Description</div>
+                  <div className="bg-background/60 border border-border/40 rounded-xl p-4 text-sm text-foreground/80 leading-relaxed">
+                    An epic dark fantasy RPG where every choice shapes the fate of a dying world. Forge powerful alliances, master arcane combat, and face the consequences of your decisions.
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wide font-semibold">Full Description</div>
+                  <div className="bg-background/60 border border-border/40 rounded-xl p-4 text-sm text-foreground/80 leading-relaxed line-clamp-4">
+                    Descend into a world consumed by shadow. Forge alliances with morally complex factions, master a deep dark arts combat system, and confront an ancient evil that has slumbered for millennia. Every decision echoes — who will you become when the light fades?
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
       </section>
 
       <Separator className="max-w-6xl mx-auto bg-border/30" />
 
       {/* ── MARQUEE ── */}
       <section className="relative z-10 py-10 overflow-hidden">
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center mb-2">
           <AnimatedGradientText className="!mx-0">Supports all major platforms</AnimatedGradientText>
+        </div>
+        <div className="flex justify-center mb-6">
+          <div className="flex items-center gap-1.5 text-xs text-green-400/80 font-medium">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6l-8-4z"/></svg>
+            Steam 2026 AI Disclosure compliant · Updated as platforms change
+          </div>
         </div>
         <div className="relative">
           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
