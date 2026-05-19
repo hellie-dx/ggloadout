@@ -97,12 +97,12 @@ export default function LandingPage() {
           <span className="text-lg font-bold tracking-widest text-white uppercase">GGLoadout</span>
           <AnimatedGradientText className="!mx-0 px-3 py-0.5 text-xs rounded-full">Beta</AnimatedGradientText>
         </div>
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="sm" onClick={handleLogin} className="text-muted-foreground hover:text-foreground">
-            Sign in
-          </Button>
+        <div className="flex items-center">
           <ShimmerButton variant="classic" borderRadius="8px" onClick={handleLogin} className="!px-4 !py-1.5 !text-sm" innerClassName="bg-white !text-black font-semibold">
-            Get started free
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-4 h-4 shrink-0">
+              <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+            Sign in
           </ShimmerButton>
         </div>
       </motion.header>
