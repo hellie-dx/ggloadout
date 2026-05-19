@@ -124,7 +124,7 @@ export default function LandingPage() {
             Master your launch.
           </span>
           <br />
-          The complete kit for every platform.
+          One form. Every platform.
         </motion.h1>
 
         <motion.p
