@@ -156,7 +156,9 @@ export default function LandingPage() {
 
       {/* ── MARQUEE ── */}
       <section className="relative z-10 py-10 overflow-hidden">
-        <p className="text-center text-sm text-muted-foreground mb-6">Supports all major platforms</p>
+        <div className="flex justify-center mb-6">
+          <AnimatedGradientText className="!mx-0 px-3 py-0.5 text-xs rounded-full">Supports all major platforms</AnimatedGradientText>
+        </div>
         <div className="relative">
           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
           <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
