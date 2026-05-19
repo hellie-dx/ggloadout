@@ -166,29 +166,84 @@ export default function LandingPage() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {FEATURES.map((f, i) => (
-            <motion.div
-              key={f.title}
-              className={f.className}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              custom={i * 0.5}
-            >
-              <motion.div whileHover={{ y: -3, transition: { duration: 0.2 } }} className="h-full">
-                <Card className="relative h-full bg-card border-border/40 overflow-hidden group hover:border-primary/40 transition-all duration-300">
-                  {/* Glow on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                  <CardContent className="p-6 relative">
-                    <div className="text-3xl mb-4">{f.icon}</div>
-                    <h3 className="font-semibold text-foreground mb-2 text-lg">{f.title}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-                  </CardContent>
-                </Card>
-              </motion.div>
+
+          {/* Card 1 — wide, core value prop */}
+          <motion.div className="md:col-span-2" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={0}>
+            <motion.div whileHover={{ y: -3, transition: { duration: 0.2 } }} className="h-full">
+              <Card className="relative h-full bg-card border-border/40 overflow-hidden group hover:border-white/20 transition-all duration-300">
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                <CardContent className="p-7 relative flex flex-col h-full">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><rect x="8" y="3" width="13" height="13" rx="2"/><path d="M5 8H3a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-2"/></svg>
+                  </div>
+                  <h3 className="font-bold text-foreground text-xl mb-2">One form, all platforms</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Fill in your game details once. We format the copy correctly for every platform — right length, right format, ready to paste.</p>
+                  <div className="mt-auto pt-6 flex gap-2 flex-wrap">
+                    {['Steam', 'itch.io', 'App Store', 'Google Play'].map(p => (
+                      <span key={p} className="text-xs px-2.5 py-1 rounded-full border border-white/10 text-muted-foreground bg-white/5">{p}</span>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
-          ))}
+          </motion.div>
+
+          {/* Card 2 — speed */}
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={0.5}>
+            <motion.div whileHover={{ y: -3, transition: { duration: 0.2 } }} className="h-full">
+              <Card className="relative h-full bg-card border-border/40 overflow-hidden group hover:border-white/20 transition-all duration-300">
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                <CardContent className="p-7 relative">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                  </div>
+                  <h3 className="font-bold text-foreground text-xl mb-2">Launch-ready in seconds</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">No more staring at a blank page. Get professional copy instantly.</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </motion.div>
+
+          {/* Card 3 — Steam compliance */}
+          <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={1}>
+            <motion.div whileHover={{ y: -3, transition: { duration: 0.2 } }} className="h-full">
+              <Card className="relative h-full bg-card border-border/40 overflow-hidden group hover:border-white/20 transition-all duration-300">
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                <CardContent className="p-7 relative">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><path d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6l-8-4z"/></svg>
+                  </div>
+                  <h3 className="font-bold text-foreground text-xl mb-2">Steam 2026 compliant</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Auto-generates the AI disclosure text Valve now requires. Stay compliant without the headache.</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </motion.div>
+
+          {/* Card 4 — wide, multi-platform */}
+          <motion.div className="md:col-span-2" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={1.5}>
+            <motion.div whileHover={{ y: -3, transition: { duration: 0.2 } }} className="h-full">
+              <Card className="relative h-full bg-card border-border/40 overflow-hidden group hover:border-white/20 transition-all duration-300">
+                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+                <CardContent className="p-7 relative flex flex-col h-full">
+                  <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-5">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2c-3 3-4 6-4 10s1 7 4 10M12 2c3 3 4 6 4 10s-1 7-4 10"/></svg>
+                  </div>
+                  <h3 className="font-bold text-foreground text-xl mb-2">Multi-platform ready</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">Steam, itch.io, App Store, Google Play — each with the right format and character limits.</p>
+                  <div className="mt-auto pt-6 grid grid-cols-2 gap-3">
+                    {[['Steam', '8,000 chars'], ['itch.io', 'No limit'], ['App Store', '4,000 chars'], ['Google Play', '4,000 chars']].map(([name, limit]) => (
+                      <div key={name} className="flex items-center justify-between rounded-lg bg-white/5 border border-white/10 px-3 py-2">
+                        <span className="text-xs font-medium text-foreground">{name}</span>
+                        <span className="text-xs text-muted-foreground">{limit}</span>
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </motion.div>
+
         </div>
       </section>
 
