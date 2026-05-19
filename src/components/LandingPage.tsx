@@ -95,7 +95,7 @@ export default function LandingPage() {
         <div className="flex items-center gap-3">
           <GGLoadoutLogo size={58} />
           <span className="text-lg font-bold tracking-widest text-white uppercase">GGLoadout</span>
-          <AnimatedGradientText className="!mx-0 px-3 py-0.5 text-xs rounded-full">Beta</AnimatedGradientText>
+          <AnimatedGradientText className="!mx-0">Beta</AnimatedGradientText>
         </div>
         <div className="flex items-center">
           <ShimmerButton variant="classic" borderRadius="8px" onClick={handleLogin} className="!px-4 !py-1.5 !text-sm" innerClassName="bg-white !text-black font-semibold">
@@ -111,7 +111,7 @@ export default function LandingPage() {
       <section className="relative z-10 max-w-5xl mx-auto px-6 pt-16 pb-8 text-center">
 
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="flex justify-center mb-6">
-          <AnimatedGradientText className="!mx-0 px-3 py-0.5 text-xs rounded-full">
+          <AnimatedGradientText className="!mx-0">
             <span>🎮 Built for game makers</span>
           </AnimatedGradientText>
         </motion.div>
@@ -157,7 +157,7 @@ export default function LandingPage() {
       {/* ── MARQUEE ── */}
       <section className="relative z-10 py-10 overflow-hidden">
         <div className="flex justify-center mb-6">
-          <AnimatedGradientText className="!mx-0 px-3 py-0.5 text-xs rounded-full">Supports all major platforms</AnimatedGradientText>
+          <AnimatedGradientText className="!mx-0">Supports all major platforms</AnimatedGradientText>
         </div>
         <div className="relative">
           <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
