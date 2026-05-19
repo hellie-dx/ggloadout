@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GGLoadout — Master your launch!",
+  title: "GGLoadout",
   description: "Fill in your game details once. Get ready-to-paste store copy for Steam, itch.io, App Store, and Google Play in seconds.",
 };
 
