@@ -111,7 +111,7 @@ export default function LandingPage() {
       <section className="relative z-10 max-w-5xl mx-auto px-6 pt-16 pb-8 text-center">
 
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="flex justify-center mb-6">
-          <AnimatedGradientText>
+          <AnimatedGradientText className="!mx-0 px-3 py-0.5 text-xs rounded-full">
             <span>🎮 Built for game makers</span>
           </AnimatedGradientText>
         </motion.div>
