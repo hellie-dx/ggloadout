@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GGLoadout — Your complete launch kit for indie games",
+  title: "GGLoadout — Launch kit for indie games",
   description: "Fill in your game details once. Get ready-to-paste store copy for Steam, itch.io, App Store, and Google Play in seconds.",
 };
 

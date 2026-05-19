@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 140">
+  <defs>
+    <linearGradient id="s1" x1="65" y1="8" x2="114" y2="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ff0000"/><stop offset="100%" stop-color="#ffff00"/>
+    </linearGradient>
+    <linearGradient id="s2" x1="114" y1="36" x2="114" y2="92" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffff00"/><stop offset="100%" stop-color="#00ff00"/>
+    </linearGradient>
+    <linearGradient id="s3" x1="114" y1="92" x2="65" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00ff00"/><stop offset="100%" stop-color="#00ffff"/>
+    </linearGradient>
+    <linearGradient id="s4" x1="65" y1="120" x2="16" y2="92" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00ffff"/><stop offset="100%" stop-color="#0000ff"/>
+    </linearGradient>
+    <linearGradient id="s5" x1="16" y1="92" x2="16" y2="36" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0000ff"/><stop offset="100%" stop-color="#aa00ff"/>
+    </linearGradient>
+    <linearGradient id="s6" x1="16" y1="36" x2="65" y2="8" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#aa00ff"/><stop offset="100%" stop-color="#ff0000"/>
+    </linearGradient>
+  </defs>
+  <rect width="130" height="140" fill="#0d0d12"/>
+  <polygon points="65,8 114,36 114,92 65,120 16,92 16,36" fill="rgba(255,255,255,0.04)"/>
+  <line x1="65" y1="8"   x2="114" y2="36"  stroke="url(#s1)" stroke-width="4"/>
+  <line x1="114" y1="36" x2="114" y2="92"  stroke="url(#s2)" stroke-width="4"/>
+  <line x1="114" y1="92" x2="65"  y2="120" stroke="url(#s3)" stroke-width="4"/>
+  <line x1="65" y1="120" x2="16"  y2="92"  stroke="url(#s4)" stroke-width="4"/>
+  <line x1="16" y1="92"  x2="16"  y2="36"  stroke="url(#s5)" stroke-width="4"/>
+  <line x1="16" y1="36"  x2="65"  y2="8"   stroke="url(#s6)" stroke-width="4"/>
+  <text x="65" y="74" text-anchor="middle" font-size="34" font-weight="900"
+    fill="white" font-family="sans-serif" letter-spacing="-2">GG</text>
+</svg>
