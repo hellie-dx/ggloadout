@@ -112,7 +112,7 @@ export default function LandingPage() {
 
         <motion.div variants={fadeUp} initial="hidden" animate="show" custom={0} className="flex justify-center mb-6">
           <AnimatedGradientText>
-            <span>🎮 Built for indie game developers</span>
+            <span>🎮 Built for game makers</span>
           </AnimatedGradientText>
         </motion.div>
 
@@ -120,12 +120,11 @@ export default function LandingPage() {
           className="text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6"
           variants={fadeUp} initial="hidden" animate="show" custom={1}
         >
-          Your complete
-          <br />
-          <span className="bg-clip-text text-transparent animate-text-glow" style={{ background: 'linear-gradient(135deg, #ff0000, #ff8800, #ffff00, #00ff88, #0088ff, #8800ff, #ff0088, #ff0000)', backgroundSize: '400% auto', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'text-color-flow 12s linear infinite, text-glow-pulse 3s ease-in-out infinite' }}>
-            launch kit
+          <span className="bg-clip-text text-transparent" style={{ background: 'linear-gradient(135deg, #ff0000, #ff8800, #ffff00, #00ff88, #0088ff, #8800ff, #ff0088, #ff0000)', backgroundSize: '400% auto', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', animation: 'text-color-flow 12s linear infinite, text-glow-pulse 3s ease-in-out infinite' }}>
+            Master your launch.
           </span>
-          {' '}for indie games
+          <br />
+          The complete kit for every platform.
         </motion.h1>
 
         <motion.p
@@ -137,22 +136,19 @@ export default function LandingPage() {
         </motion.p>
 
         <motion.div
-          className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-4"
+          className="flex justify-center items-center mb-4"
           variants={fadeUp} initial="hidden" animate="show" custom={3}
         >
           <ShimmerButton variant="cta" onClick={handleLogin} className="text-base px-10 py-4 rounded-xl">
             Start for free — no credit card
           </ShimmerButton>
-          <Button variant="ghost" onClick={handleLogin} className="text-muted-foreground">
-            View pricing →
-          </Button>
         </motion.div>
 
         <motion.p
           className="text-sm text-muted-foreground"
           variants={fadeUp} initial="hidden" animate="show" custom={4}
         >
-          3 free generations per day · Pro $9/mo for unlimited
+          3 free generations per day · Pro $9/month for unlimited generations
         </motion.p>
 
         {/* Product screenshot mockup */}
