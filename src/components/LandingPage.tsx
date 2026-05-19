@@ -79,12 +79,91 @@ const SAMPLE_OUTPUT: Record<string, { short: string; full: string }> = {
   },
 }
 
+const MEDIA_REQUIREMENTS: Record<string, { item: string; spec: string }[]> = {
+  'Steam': [
+    { item: 'Screenshots', spec: '6 required · 1280×720 or 2560×1440' },
+    { item: 'Capsule image', spec: '460×215 px' },
+    { item: 'Header capsule', spec: '460×215 px' },
+    { item: 'Main capsule', spec: '616×353 px' },
+    { item: 'Trailer', spec: 'Optional · MP4' },
+  ],
+  'itch.io': [
+    { item: 'Cover image', spec: '315×250 px recommended' },
+    { item: 'Screenshots', spec: 'Up to 7 · any ratio' },
+  ],
+  'App Store': [
+    { item: '6.7" Screenshots', spec: '1290×2796 px · 6 required' },
+    { item: 'iPad screenshots', spec: 'Required if universal' },
+    { item: 'App preview video', spec: 'Optional · 15–30 sec' },
+  ],
+  'Google Play': [
+    { item: 'Screenshots', spec: '8 minimum · 1080×1920' },
+    { item: 'Feature graphic', spec: '1024×500 px · required' },
+    { item: 'Promo video', spec: 'Optional · YouTube URL' },
+  ],
+}
+
 const FREE_FEATURES = ['3 generations per day', 'All 4 platforms', 'Steam AI disclosure text', 'No credit card needed']
 const PRO_FEATURES = ['Unlimited generations', 'All 4 platforms', 'Steam AI disclosure text', 'Saved history']
 
 export default function LandingPage() {
   const supabase = createClient()
   const [samplePlatform, setSamplePlatform] = useState('Steam')
+  const steps = [
+    {
+      step: '01',
+      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-4 h-4 text-white/60"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
+      title: 'Describe your game',
+      desc: 'Fill in your game details once — name, genre, gameplay, what makes it unique, key features, and your target audience.',
+      visual: (
+        <div className="space-y-2">
+          {[
+            { label: 'Game Name', placeholder: 'Shadow Realm Chronicles', tall: false },
+            { label: 'Genre', placeholder: 'Select genre...', tall: false },
+            { label: 'Core Gameplay', placeholder: 'What do players actually do?', tall: true },
+            { label: 'Unique Angle', placeholder: 'What makes your game different?', tall: true },
+            { label: 'Key Features', placeholder: 'List your main features...', tall: true },
+            { label: 'Target Audience', placeholder: 'Fans of Dark Souls and classic JRPGs', tall: false },
+          ].map(f => (
+            <div key={f.label}>
+              <div className="text-[10px] text-muted-foreground/50 mb-0.5">{f.label}</div>
+              <div className={`bg-white/[0.03] border border-white/[0.07] rounded-md px-2.5 flex items-start pt-1.5 ${f.tall ? 'h-10' : 'h-7'}`}>
+                <span className="text-[10px] text-muted-foreground/25 leading-relaxed">{f.placeholder}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      step: '02',
+      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-4 h-4 text-white/60"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>,
+      title: 'Set the tone',
+      desc: 'Pick the vibe that matches your game. The copy adapts its language, energy, and style to match.',
+      visual: (
+        <div className="flex flex-wrap gap-2">
+          {['Dark', 'Cozy', 'Funny', 'Intense', 'Chill', 'Epic', 'Mysterious', 'Wholesome'].map(t => (
+            <span key={t} className={`text-xs px-3 py-1.5 rounded-full border ${t === 'Epic' ? 'bg-white text-black border-white font-semibold' : 'border-white/[0.08] text-muted-foreground/60 bg-white/[0.03]'}`}>{t}</span>
+          ))}
+        </div>
+      ),
+    },
+    {
+      step: '03',
+      icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-4 h-4 text-white/60"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+      title: 'Generate in seconds',
+      desc: 'Hit generate. GGLoadout writes store-ready copy for every selected platform simultaneously — no waiting.',
+      visual: (
+        <div className="flex items-center gap-4">
+          <div className="flex-1 h-10 rounded-lg bg-white/[0.06] border border-white/[0.12] flex items-center justify-center gap-2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-4 h-4 text-white/70"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span className="text-sm text-white/70 font-medium">✨ Generate Copy</span>
+          </div>
+          <span className="text-sm text-muted-foreground/40">~3 sec</span>
+        </div>
+      ),
+    },
+  ]
 
   const handleLogin = async () => {
     await supabase.auth.signInWithOAuth({
@@ -186,120 +265,92 @@ export default function LandingPage() {
           </p>
         </motion.div>
 
-        {/* 4 step cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-          {[
-            {
-              step: '01',
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
-              title: 'Describe your game',
-              desc: 'Fill in name, genre, gameplay loop, and what makes your game unique.',
-              visual: (
-                <div className="mt-4 space-y-1.5">
-                  {['Game Name', 'Genre', 'Core Gameplay'].map(f => (
-                    <div key={f} className="h-7 rounded-md bg-white/5 border border-white/10 px-2.5 flex items-center">
-                      <span className="text-[10px] text-muted-foreground/50">{f}...</span>
-                    </div>
-                  ))}
-                </div>
-              ),
-            },
-            {
-              step: '02',
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>,
-              title: 'Set the tone',
-              desc: 'Choose the vibe that matches your game — dark, epic, chill, or funny.',
-              visual: (
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {['Dark', 'Epic', 'Chill', 'Funny'].map((t, i) => (
-                    <span key={t} className={`text-[10px] px-2 py-1 rounded-full border ${i === 1 ? 'bg-white text-black border-white font-semibold' : 'border-white/10 text-muted-foreground bg-white/5'}`}>{t}</span>
-                  ))}
-                </div>
-              ),
-            },
-            {
-              step: '03',
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
-              title: 'Generate in seconds',
-              desc: 'Hit generate. GGLoadout processes your input and writes the copy instantly.',
-              visual: (
-                <div className="mt-4">
-                  <div className="h-8 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center gap-2">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-3.5 h-3.5 text-white"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                    <span className="text-[10px] text-white font-medium">Generate Copy</span>
-                  </div>
-                </div>
-              ),
-            },
-            {
-              step: '04',
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-5 h-5 text-white"><rect x="8" y="3" width="13" height="13" rx="2"/><path d="M5 8H3a2 2 0 00-2 2v9a2 2 0 002 2h9a2 2 0 002-2v-2"/></svg>,
-              title: 'Pick platform & paste',
-              desc: 'Switch between platforms, copy the output. Done.',
-              visual: (
-                <div className="mt-4 space-y-1.5">
-                  <div className="flex gap-2 border-b border-white/10 pb-1.5">
-                    {['Steam', 'itch.io', 'App Store'].map((p, i) => (
-                      <span key={p} className={`text-[10px] pb-1 ${i === 0 ? 'text-white border-b border-white' : 'text-muted-foreground'}`}>{p}</span>
-                    ))}
-                  </div>
-                  <div className="text-[10px] text-muted-foreground leading-relaxed line-clamp-2">An epic dark fantasy RPG where every choice shapes the fate of a dying world...</div>
-                </div>
-              ),
-            },
-          ].map((s, i) => (
-            <motion.div key={s.step} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={i * 0.3}>
-              <Card className="relative h-full bg-card border-border/40 overflow-hidden hover:border-white/20 transition-all duration-300">
-                <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-                <CardContent className="p-5 relative flex flex-col h-full">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">{s.icon}</div>
-                    <span className="text-xs font-mono text-muted-foreground/40">{s.step}</span>
-                  </div>
-                  <h3 className="font-bold text-foreground text-base mb-1">{s.title}</h3>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{s.desc}</p>
-                  {s.visual}
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
+        {/* Bento: card 1 tall-left, cards 2 & 3 stack right */}
+        <div
+          className="grid gap-4 mb-4"
+          style={{ gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto', gridTemplateAreas: '"a b" "a c"' }}
+        >
+          {/* Card 1 — spans both rows */}
+          <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-5" style={{ gridArea: 'a' }}>
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-sm font-bold text-black shrink-0">1</div>
+              <h3 className="text-base font-semibold text-foreground">{steps[0].title}</h3>
+            </div>
+            <p className="text-sm text-muted-foreground/60 leading-relaxed">{steps[0].desc}</p>
+            <div className="rounded-lg bg-white/[0.02] border border-white/[0.06] p-4 flex-1">{steps[0].visual}</div>
+          </div>
+          {/* Card 2 */}
+          <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-5" style={{ gridArea: 'b' }}>
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-sm font-bold text-black shrink-0">2</div>
+              <h3 className="text-base font-semibold text-foreground">{steps[1].title}</h3>
+            </div>
+            <p className="text-sm text-muted-foreground/60 leading-relaxed">{steps[1].desc}</p>
+            <div className="rounded-lg bg-white/[0.02] border border-white/[0.06] p-4 mt-auto">{steps[1].visual}</div>
+          </div>
+          {/* Card 3 */}
+          <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-5" style={{ gridArea: 'c' }}>
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-sm font-bold text-black shrink-0">3</div>
+              <h3 className="text-base font-semibold text-foreground">{steps[2].title}</h3>
+            </div>
+            <p className="text-sm text-muted-foreground/60 leading-relaxed">{steps[2].desc}</p>
+            <div className="rounded-lg bg-white/[0.02] border border-white/[0.06] p-4 mt-auto">{steps[2].visual}</div>
+          </div>
         </div>
 
-        {/* Sample output card — interactive */}
-        <motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }} custom={1.2}>
-          <Card className="relative bg-card border-border/40 overflow-hidden">
-            <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-            <CardContent className="p-7 relative">
-              <div className="flex flex-wrap items-center gap-2 mb-6">
-                <span className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Sample output</span>
-                <div className="h-px flex-1 bg-border/40 hidden sm:block" />
-                <div className="flex gap-1">
-                  {Object.keys(SAMPLE_OUTPUT).map(p => (
-                    <button
-                      key={p}
-                      onClick={() => setSamplePlatform(p)}
-                      className={`text-xs px-3 py-1 rounded-full border transition-all duration-200 ${samplePlatform === p ? 'bg-white text-black border-white font-semibold' : 'border-white/10 text-muted-foreground hover:border-white/30 hover:text-white'}`}
-                    >{p}</button>
-                  ))}
-                </div>
+        {/* Step 4 — full-width card */}
+        <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-6">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-sm font-bold text-black shrink-0">4</div>
+              <h3 className="text-base font-semibold text-foreground">Pick platform &amp; paste</h3>
+            </div>
+            <p className="text-sm text-muted-foreground/60 leading-relaxed hidden md:block">Switch between platforms below, copy the output — right character limits, right tone, ready to paste.</p>
+          </div>
+          {/* Platform tabs */}
+          <div className="flex gap-1 flex-wrap">
+            {Object.keys(SAMPLE_OUTPUT).map(p => (
+              <button
+                key={p}
+                onClick={() => setSamplePlatform(p)}
+                className={`text-xs px-3 py-1.5 rounded-full border transition-all duration-200 ${samplePlatform === p ? 'bg-white text-black border-white font-semibold' : 'border-white/10 text-muted-foreground hover:border-white/30 hover:text-white'}`}
+              >{p}</button>
+            ))}
+          </div>
+          {/* Output */}
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <div className="text-xs text-muted-foreground/60 uppercase tracking-wide font-semibold">Short Description</div>
+              <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-sm text-foreground/80 leading-relaxed">
+                {SAMPLE_OUTPUT[samplePlatform].short}
               </div>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-3">
-                  <div className="text-xs text-muted-foreground uppercase tracking-wide font-semibold">Short Description</div>
-                  <div className="bg-background/60 border border-border/40 rounded-xl p-4 text-sm text-foreground/80 leading-relaxed min-h-20">
-                    {SAMPLE_OUTPUT[samplePlatform].short}
+            </div>
+            <div className="space-y-2">
+              <div className="text-xs text-muted-foreground/60 uppercase tracking-wide font-semibold">Full Description</div>
+              <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-sm text-foreground/80 leading-relaxed whitespace-pre-line">
+                {SAMPLE_OUTPUT[samplePlatform].full}
+              </div>
+            </div>
+          </div>
+          {/* Media requirements */}
+          <div className="pt-4 border-t border-white/[0.06]">
+            <div className="text-xs text-muted-foreground/60 uppercase tracking-wide font-semibold mb-3">Media Requirements</div>
+            <div className="flex flex-wrap gap-2">
+              {MEDIA_REQUIREMENTS[samplePlatform].map(({ item, spec }) => (
+                <div key={item} className="flex items-start gap-2 bg-white/[0.02] border border-white/[0.06] rounded-lg px-3 py-2">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-white/30">
+                    <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12l2 2 4-4"/>
+                  </svg>
+                  <div>
+                    <div className="text-xs font-medium text-foreground/80">{item}</div>
+                    <div className="text-[10px] text-muted-foreground/60 mt-0.5">{spec}</div>
                   </div>
                 </div>
-                <div className="space-y-3">
-                  <div className="text-xs text-muted-foreground uppercase tracking-wide font-semibold">Full Description</div>
-                  <div className="bg-background/60 border border-border/40 rounded-xl p-4 text-sm text-foreground/80 leading-relaxed whitespace-pre-line line-clamp-6">
-                    {SAMPLE_OUTPUT[samplePlatform].full}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
       </section>
 
       <Separator className="max-w-6xl mx-auto bg-border/30" />
