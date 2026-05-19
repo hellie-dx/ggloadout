@@ -154,26 +154,6 @@ export default function LandingPage() {
         {/* Product screenshot mockup */}
       </section>
 
-      {/* ── MARQUEE ── */}
-      <section className="relative z-10 py-10 overflow-hidden">
-        <div className="flex justify-center mb-6">
-          <AnimatedGradientText className="!mx-0">Supports all major platforms</AnimatedGradientText>
-        </div>
-        <div className="relative">
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
-          <Marquee pauseOnHover repeat={3} className="[--duration:20s]">
-            {PLATFORMS.map(p => (
-              <div key={p} className="mx-6 flex items-center gap-2 text-sm text-muted-foreground border border-border/40 rounded-full px-4 py-2 bg-card/50">
-                <span>{p}</span>
-              </div>
-            ))}
-          </Marquee>
-        </div>
-      </section>
-
-      <Separator className="max-w-6xl mx-auto bg-border/30" />
-
       {/* ── FEATURES BENTO ── */}
       <section className="relative z-10 max-w-5xl mx-auto px-6 py-20">
         <motion.div
@@ -209,6 +189,26 @@ export default function LandingPage() {
               </motion.div>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      <Separator className="max-w-6xl mx-auto bg-border/30" />
+
+      {/* ── MARQUEE ── */}
+      <section className="relative z-10 py-10 overflow-hidden">
+        <div className="flex justify-center mb-6">
+          <AnimatedGradientText className="!mx-0">Supports all major platforms</AnimatedGradientText>
+        </div>
+        <div className="relative">
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+          <Marquee pauseOnHover repeat={3} className="[--duration:20s]">
+            {PLATFORMS.map(p => (
+              <div key={p} className="mx-6 flex items-center gap-2 text-sm text-muted-foreground border border-border/40 rounded-full px-4 py-2 bg-card/50">
+                <span>{p}</span>
+              </div>
+            ))}
+          </Marquee>
         </div>
       </section>
 
