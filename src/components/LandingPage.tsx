@@ -159,8 +159,11 @@ export default function LandingPage() {
         <motion.div className="text-center mb-12" variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true }}>
           <p className="text-sm text-primary font-semibold mb-2 uppercase tracking-wider">How it works</p>
           <h2 className="text-4xl font-bold mb-4">Store-ready copy. So you can <span style={rgbText}>focus on shipping.</span></h2>
-          <p className="text-foreground/80 font-medium max-w-xl mx-auto mb-2">No copywriter, no blank page, no guessing what the platforms want.</p>
-          <p className="text-muted-foreground max-w-xl mx-auto">You describe your game one time. GGLoadout outputs correctly formatted copy for Steam, itch.io, App Store, and Google Play —<br />right character limits, right tone, ready to paste.</p>
+          <p className="text-muted-foreground max-w-xl mx-auto">
+            No copywriter, no blank page, no guessing what the platforms want.<br />
+            Get correctly formatted copy for Steam, itch.io, App Store, Google Play and more.<br />
+            Right character limits, right tone — Ready to paste.
+          </p>
         </motion.div>
 
         {/* 4 step cards */}
