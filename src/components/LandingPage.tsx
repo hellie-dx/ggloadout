@@ -109,6 +109,13 @@ const PRO_FEATURES = ['Unlimited generations', 'All 4 platforms', 'Steam AI disc
 export default function LandingPage() {
   const supabase = createClient()
   const [samplePlatform, setSamplePlatform] = useState('Steam')
+  const [copiedKey, setCopiedKey] = useState<string | null>(null)
+  const copyText = (key: string, text: string) => {
+    navigator.clipboard.writeText(text)
+    setCopiedKey(key)
+    setTimeout(() => setCopiedKey(null), 2000)
+  }
+
   const steps = [
     {
       step: '01',
@@ -126,9 +133,9 @@ export default function LandingPage() {
             { label: 'Target Audience', placeholder: 'Fans of Dark Souls and classic JRPGs', tall: false },
           ].map(f => (
             <div key={f.label}>
-              <div className="text-[10px] text-muted-foreground/50 mb-0.5">{f.label}</div>
-              <div className={`bg-white/[0.03] border border-white/[0.07] rounded-md px-2.5 flex items-start pt-1.5 ${f.tall ? 'h-10' : 'h-7'}`}>
-                <span className="text-[10px] text-muted-foreground/25 leading-relaxed">{f.placeholder}</span>
+              <div className="text-xs text-white/60 mb-1 font-semibold">{f.label}</div>
+              <div className={`bg-white/[0.05] border border-white/[0.12] rounded-lg px-3 flex items-center ${f.tall ? 'h-10' : 'h-8'}`}>
+                <span className="text-xs text-white/45">{f.placeholder}</span>
               </div>
             </div>
           ))}
@@ -143,7 +150,7 @@ export default function LandingPage() {
       visual: (
         <div className="flex flex-wrap gap-2">
           {['Dark', 'Cozy', 'Funny', 'Intense', 'Chill', 'Epic', 'Mysterious', 'Wholesome'].map(t => (
-            <span key={t} className={`text-xs px-3 py-1.5 rounded-full border ${t === 'Epic' ? 'bg-white text-black border-white font-semibold' : 'border-white/[0.08] text-muted-foreground/60 bg-white/[0.03]'}`}>{t}</span>
+            <span key={t} className={`text-xs px-3 py-1.5 rounded-full border ${t === 'Epic' ? 'bg-white text-black border-white font-semibold' : 'border-white/[0.06] text-muted-foreground/60 bg-white/[0.02]'}`}>{t}</span>
           ))}
         </div>
       ),
@@ -277,7 +284,7 @@ export default function LandingPage() {
               <h3 className="text-base font-semibold text-foreground">{steps[0].title}</h3>
             </div>
             <p className="text-sm text-muted-foreground/60 leading-relaxed">{steps[0].desc}</p>
-            <div className="rounded-lg bg-white/[0.02] border border-white/[0.06] p-4 flex-1">{steps[0].visual}</div>
+            <div className="rounded-lg border border-white/[0.06] p-4 flex-1">{steps[0].visual}</div>
           </div>
           {/* Card 2 */}
           <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-5" style={{ gridArea: 'b' }}>
@@ -286,7 +293,7 @@ export default function LandingPage() {
               <h3 className="text-base font-semibold text-foreground">{steps[1].title}</h3>
             </div>
             <p className="text-sm text-muted-foreground/60 leading-relaxed">{steps[1].desc}</p>
-            <div className="rounded-lg bg-white/[0.02] border border-white/[0.06] p-4 mt-auto">{steps[1].visual}</div>
+            <div className="rounded-lg border border-white/[0.06] p-4 mt-auto">{steps[1].visual}</div>
           </div>
           {/* Card 3 */}
           <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-5" style={{ gridArea: 'c' }}>
@@ -295,7 +302,7 @@ export default function LandingPage() {
               <h3 className="text-base font-semibold text-foreground">{steps[2].title}</h3>
             </div>
             <p className="text-sm text-muted-foreground/60 leading-relaxed">{steps[2].desc}</p>
-            <div className="rounded-lg bg-white/[0.02] border border-white/[0.06] p-4 mt-auto">{steps[2].visual}</div>
+            <div className="rounded-lg border border-white/[0.06] p-4 mt-auto">{steps[2].visual}</div>
           </div>
         </div>
 
@@ -321,13 +328,37 @@ export default function LandingPage() {
           {/* Output */}
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <div className="text-xs text-muted-foreground/60 uppercase tracking-wide font-semibold">Short Description</div>
+              <div className="flex items-center justify-between">
+                <div className="text-xs text-muted-foreground/60 uppercase tracking-wide font-semibold">Short Description</div>
+                <button
+                  onClick={() => copyText('short', SAMPLE_OUTPUT[samplePlatform].short)}
+                  className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] text-white/40 hover:text-white/70 transition-all duration-150"
+                >
+                  {copiedKey === 'short' ? (
+                    <><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-3 h-3 text-green-400"><polyline points="20 6 9 17 4 12"/></svg><span className="text-green-400">Copied</span></>
+                  ) : (
+                    <><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3 h-3"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Copy</>
+                  )}
+                </button>
+              </div>
               <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-sm text-foreground/80 leading-relaxed">
                 {SAMPLE_OUTPUT[samplePlatform].short}
               </div>
             </div>
             <div className="space-y-2">
-              <div className="text-xs text-muted-foreground/60 uppercase tracking-wide font-semibold">Full Description</div>
+              <div className="flex items-center justify-between">
+                <div className="text-xs text-muted-foreground/60 uppercase tracking-wide font-semibold">Full Description</div>
+                <button
+                  onClick={() => copyText('full', SAMPLE_OUTPUT[samplePlatform].full)}
+                  className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] text-white/40 hover:text-white/70 transition-all duration-150"
+                >
+                  {copiedKey === 'full' ? (
+                    <><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-3 h-3 text-green-400"><polyline points="20 6 9 17 4 12"/></svg><span className="text-green-400">Copied</span></>
+                  ) : (
+                    <><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3 h-3"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Copy</>
+                  )}
+                </button>
+              </div>
               <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 text-sm text-foreground/80 leading-relaxed whitespace-pre-line">
                 {SAMPLE_OUTPUT[samplePlatform].full}
               </div>
