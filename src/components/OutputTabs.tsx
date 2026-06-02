@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import React from 'react'
 
 interface OutputData {
   steam?: {
@@ -105,19 +106,36 @@ export default function OutputTabs({ data }: { data: OutputData }) {
   return (
     <div>
       {/* Platform tabs */}
-      <div className="flex gap-0.5 mb-5 border-b border-white/[0.07]">
+      <div className="flex gap-2 mb-5 flex-wrap">
         {availablePlatforms.map(p => (
-          <button
-            key={p}
-            onClick={() => setActive(p)}
-            className={`px-4 py-2 text-sm font-medium transition-all duration-150 border-b-2 -mb-px ${
-              active === p
-                ? 'border-white text-white'
-                : 'border-transparent text-white/50 hover:text-white/60'
-            }`}
-          >
-            {PLATFORM_LABELS[p]}
-          </button>
+          active === p ? (
+            <div
+              key={p}
+              className="relative p-[1.5px]"
+              style={{
+                borderRadius: '8px',
+                background: 'linear-gradient(to right, #6644ff, #cc0088)',
+                boxShadow: '0 0 14px rgba(102,68,255,0.35), 0 0 28px rgba(204,0,136,0.18)',
+                animation: 'rgb-breathe 4s ease-in-out infinite',
+              } as React.CSSProperties}
+            >
+              <button
+                onClick={() => setActive(p)}
+                className="px-4 py-1.5 text-sm font-semibold text-white rounded-[6px] whitespace-nowrap"
+                style={{ background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}
+              >
+                {PLATFORM_LABELS[p]}
+              </button>
+            </div>
+          ) : (
+            <button
+              key={p}
+              onClick={() => setActive(p)}
+              className="px-4 py-1.5 text-sm font-medium text-white/50 hover:text-white/80 rounded-lg border border-white/[0.08] hover:border-white/20 transition-all duration-150"
+            >
+              {PLATFORM_LABELS[p]}
+            </button>
+          )
         ))}
       </div>
 
