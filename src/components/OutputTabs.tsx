@@ -100,20 +100,29 @@ function CopyButton({ text }: { text: string }) {
 
 function RegenButton({ onClick, loading }: { onClick: () => void; loading: boolean }) {
   return (
-    <button
-      onClick={onClick}
-      disabled={loading}
-      className="flex items-center gap-1.5 text-xs px-2.5 py-1 font-medium text-white/60 hover:text-white/90 rounded-md border border-white/[0.08] hover:border-white/20 bg-white/[0.03] hover:bg-white/[0.06] transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+    <div
+      className="relative p-[1.5px] animate-[border-spin_4s_linear_infinite]"
+      style={{
+        borderRadius: '999px',
+        background: 'conic-gradient(from var(--angle, 0deg), transparent 65%, #ff0000 72%, #ffaa00 76%, #00ff88 80%, #0088ff 84%, #cc00ff 88%, transparent 93%)',
+        opacity: loading ? 0.5 : 1,
+      } as React.CSSProperties}
     >
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
-        className={`w-3 h-3 ${loading ? 'animate-spin' : ''}`}>
-        {loading
-          ? <><circle cx="12" cy="12" r="10" strokeDasharray="31.4" strokeLinecap="round"/></>
-          : <><path d="M3 12a9 9 0 019-9 9.75 9.75 0 016.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 01-9 9 9.75 9.75 0 01-6.74-2.74L3 16"/><path d="M8 16H3v5"/></>
-        }
-      </svg>
-      {loading ? 'Regenerating...' : 'Regenerate'}
-    </button>
+      <button
+        onClick={onClick}
+        disabled={loading}
+        className="flex items-center gap-1.5 text-xs px-2.5 py-1 font-semibold text-black bg-white rounded-full whitespace-nowrap disabled:cursor-not-allowed"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"
+          className={`w-3 h-3 ${loading ? 'animate-spin' : ''}`}>
+          {loading
+            ? <circle cx="12" cy="12" r="10" strokeDasharray="31.4" strokeLinecap="round"/>
+            : <><path d="M3 12a9 9 0 019-9 9.75 9.75 0 016.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 01-9 9 9.75 9.75 0 01-6.74-2.74L3 16"/><path d="M8 16H3v5"/></>
+          }
+        </svg>
+        {loading ? 'Regenerating...' : 'Regenerate'}
+      </button>
+    </div>
   )
 }
 
