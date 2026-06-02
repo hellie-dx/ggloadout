@@ -4,10 +4,9 @@ import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import GameForm, { GameFormData } from '@/components/GameForm'
 import OutputTabs from '@/components/OutputTabs'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { motion } from 'framer-motion'
+import GGLoadoutLogo from '@/components/GGLoadoutLogo'
+import { AnimatedGradientText } from '@/components/magicui/animated-gradient-text'
 
 export default function AppPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -50,76 +49,69 @@ export default function AppPage() {
     <div className="min-h-screen bg-background text-foreground">
 
       {/* Header */}
-      <header className="relative z-10 border-b border-border/50 bg-background/80 backdrop-blur-sm px-6 py-4 flex items-center justify-between sticky top-0">
-        <div className="flex items-center gap-2">
-          <span className="text-xl font-bold text-primary">GGLoadout</span>
-          <Badge variant="secondary" className="text-xs">Beta</Badge>
+      <header className="sticky top-0 z-20 border-b border-white/[0.07] bg-background/80 backdrop-blur-sm px-6 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <GGLoadoutLogo size={36} />
+          <span className="text-base font-bold tracking-widest text-white uppercase">GGLoadout</span>
+          <AnimatedGradientText className="!mx-0 text-xs">Beta</AnimatedGradientText>
         </div>
-        <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-muted-foreground hover:text-foreground">
+        <button
+          onClick={handleSignOut}
+          className="text-sm text-white/40 hover:text-white/70 transition-colors"
+        >
           Sign out
-        </Button>
+        </button>
       </header>
 
-      <main className="relative z-10 max-w-6xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <main className="max-w-6xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
 
           {/* Form card */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <Card className="bg-card border-border/50 shadow-none h-full">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg">Your Game Details</CardTitle>
-                <CardDescription>Fill in once, get copy for all platforms.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <GameForm onGenerate={handleGenerate} isLoading={isLoading} />
-              </CardContent>
-            </Card>
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+            <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7">
+              <div className="mb-6">
+                <h2 className="text-base font-semibold text-white">Your Game Details</h2>
+                <p className="text-sm text-white/40 mt-1">Fill in once, get copy for all platforms.</p>
+              </div>
+              <GameForm onGenerate={handleGenerate} isLoading={isLoading} />
+            </div>
           </motion.div>
 
           {/* Output card */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-          >
-            <Card className="bg-card border-border/50 shadow-none h-full">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg">Generated Copy</CardTitle>
-                <CardDescription>Ready to paste into your store pages.</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {!output && !error && !isLoading && (
-                  <div className="flex flex-col items-center justify-center h-64 text-center text-muted-foreground">
-                    <span className="text-4xl mb-3">🎮</span>
-                    <p className="text-sm">Fill in your game details and hit Generate to see your copy here.</p>
-                  </div>
-                )}
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
+            <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 sticky top-24">
+              <div className="mb-6">
+                <h2 className="text-base font-semibold text-white">Generated Copy</h2>
+                <p className="text-sm text-white/40 mt-1">Ready to paste into your store pages.</p>
+              </div>
 
-                {isLoading && (
-                  <div className="flex flex-col items-center justify-center h-64 text-center text-muted-foreground">
-                    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin mb-3" />
-                    <p className="text-sm">Writing your copy...</p>
-                  </div>
-                )}
+              {!output && !error && !isLoading && (
+                <div className="flex flex-col items-center justify-center h-64 text-center">
+                  <span className="text-4xl mb-3">🎮</span>
+                  <p className="text-sm text-white/40">Fill in your game details and hit Generate to see your copy here.</p>
+                </div>
+              )}
 
-                {error && (
-                  <div className="bg-destructive/10 border border-destructive/30 rounded-lg p-4">
-                    <p className="text-sm text-destructive">{error}</p>
-                    {error.includes('Upgrade') && (
-                      <Button className="mt-3 bg-primary hover:bg-primary/90 text-primary-foreground text-sm" size="sm">
-                        Upgrade to Pro — $9/mo
-                      </Button>
-                    )}
-                  </div>
-                )}
+              {isLoading && (
+                <div className="flex flex-col items-center justify-center h-64 text-center">
+                  <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mb-3" />
+                  <p className="text-sm text-white/40">Writing your copy...</p>
+                </div>
+              )}
 
-                {output && <OutputTabs data={output as Parameters<typeof OutputTabs>[0]['data']} />}
-              </CardContent>
-            </Card>
+              {error && (
+                <div className="bg-red-500/[0.08] border border-red-500/20 rounded-xl p-4">
+                  <p className="text-sm text-red-300">{error}</p>
+                  {error.includes('Upgrade') && (
+                    <button className="mt-3 px-4 py-2 rounded-lg bg-white text-black text-sm font-semibold hover:bg-white/90 transition-colors">
+                      Upgrade to Pro — $9/mo
+                    </button>
+                  )}
+                </div>
+              )}
+
+              {output && <OutputTabs data={output as Parameters<typeof OutputTabs>[0]['data']} />}
+            </div>
           </motion.div>
 
         </div>
