@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server'
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 const FREE_DAILY_LIMIT = 3
+const PRO_DAILY_LIMIT = 50
 
 export async function POST(request: Request) {
   const supabase = await createClient()
@@ -20,28 +21,31 @@ export async function POST(request: Request) {
     .single()
 
   const isPro = profile.data?.is_pro ?? false
+  const dailyLimit = isPro ? PRO_DAILY_LIMIT : FREE_DAILY_LIMIT
 
-  if (!isPro) {
-    const today = new Date().toISOString().split('T')[0]
-    const { data: usage } = await supabase
-      .from('usage')
-      .select('count')
-      .eq('user_id', user.id)
-      .eq('date', today)
-      .single()
+  const today = new Date().toISOString().split('T')[0]
+  const { data: usage } = await supabase
+    .from('usage')
+    .select('count')
+    .eq('user_id', user.id)
+    .eq('date', today)
+    .single()
 
-    const currentCount = usage?.count ?? 0
+  const currentCount = usage?.count ?? 0
 
-    if (currentCount >= FREE_DAILY_LIMIT) {
-      return NextResponse.json({ error: 'LIMIT_REACHED' }, { status: 429 })
-    }
-
-    await supabase.from('usage').upsert({
-      user_id: user.id,
-      date: today,
-      count: currentCount + 1,
-    }, { onConflict: 'user_id,date' })
+  if (currentCount >= dailyLimit) {
+    return NextResponse.json({
+      error: 'LIMIT_REACHED',
+      isPro,
+      limit: dailyLimit,
+    }, { status: 429 })
   }
+
+  await supabase.from('usage').upsert({
+    user_id: user.id,
+    date: today,
+    count: currentCount + 1,
+  }, { onConflict: 'user_id,date' })
 
   const body = await request.json()
   const { gameName, genre, gameplay, uniqueAngle, tone, features, audience, platforms } = body

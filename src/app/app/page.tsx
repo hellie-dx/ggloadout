@@ -57,9 +57,13 @@ export default function AppPage() {
     const json = await res.json()
 
     if (!res.ok) {
-      setError(json.error === 'LIMIT_REACHED'
-        ? "You've used your 3 free generations today. Upgrade to Pro for unlimited access."
-        : 'Something went wrong. Please try again.')
+      if (json.error === 'LIMIT_REACHED') {
+        setError(json.isPro
+          ? `You've hit the ${json.limit}/day limit. This resets at midnight — come back tomorrow!`
+          : "You've used your 3 free generations today. Upgrade to Pro for 50 generations/day.")
+      } else {
+        setError('Something went wrong. Please try again.')
+      }
     } else {
       setOutput(json.data)
     }
@@ -198,7 +202,7 @@ export default function AppPage() {
               {error && (
                 <div className="bg-red-500/[0.08] border border-red-500/20 rounded-xl p-4">
                   <p className="text-sm text-red-300">{error}</p>
-                  {error.includes('Upgrade') && (
+                  {error.includes('Upgrade to Pro') && (
                     <button
                       onClick={async () => {
                         const res = await fetch('/api/paddle/checkout', { method: 'POST' })
