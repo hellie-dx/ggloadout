@@ -83,18 +83,18 @@ export default function PricingPage() {
             </div>
 
             <ul className="space-y-3 mb-8 flex-1">
-              {FREE_ONLY.map(f => (
-                <li key={f} className="flex items-center gap-3 text-sm text-white/80">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white/50 shrink-0">
+              {SHARED_FEATURES.map(f => (
+                <li key={f} className="flex items-center gap-3 text-sm text-white/35">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white/20 shrink-0">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                   {f}
                 </li>
               ))}
               <li className="border-t border-white/[0.06] pt-3" />
-              {SHARED_FEATURES.map(f => (
-                <li key={f} className="flex items-center gap-3 text-sm text-white/35">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white/20 shrink-0">
+              {FREE_ONLY.map(f => (
+                <li key={f} className="flex items-center gap-3 text-sm text-white/80">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white/50 shrink-0">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                   {f}
@@ -130,21 +130,21 @@ export default function PricingPage() {
               </div>
 
               <ul className="space-y-3 mb-8 flex-1 relative">
-                {PRO_ONLY.map(f => (
-                  <li key={f} className="flex items-center gap-3 text-sm font-semibold">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.4))' }}>
-                      <polyline points="20 6 9 17 4 12"/>
-                    </svg>
-                    <span style={rgbText}>{f}</span>
-                  </li>
-                ))}
-                <li className="border-t border-white/[0.06] pt-3" />
                 {SHARED_FEATURES.map(f => (
                   <li key={f} className="flex items-center gap-3 text-sm text-white/35">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white/20 shrink-0">
                       <polyline points="20 6 9 17 4 12"/>
                     </svg>
                     {f}
+                  </li>
+                ))}
+                <li className="border-t border-white/[0.06] pt-3" />
+                {PRO_ONLY.map(f => (
+                  <li key={f} className="flex items-center gap-3 text-sm font-semibold">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.4))' }}>
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span style={rgbText}>{f}</span>
                   </li>
                 ))}
               </ul>
