@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { ShimmerButton } from '@/components/magicui/shimmer-button'
 
 const GENRES = ['RPG', 'FPS', 'Puzzle', 'Platformer', 'Strategy', 'Simulation', 'Horror', 'Adventure', 'Sports', 'Other']
 const TONES = ['Dark', 'Cozy', 'Funny', 'Intense', 'Chill', 'Epic', 'Mysterious', 'Wholesome']
@@ -112,18 +113,22 @@ export default function GameForm({ onGenerate, isLoading }: GameFormProps) {
         <label className={labelClass}>Tone / Vibe *</label>
         <div className="flex flex-wrap gap-2">
           {TONES.map(t => (
-            <button
-              key={t}
-              type="button"
-              onClick={() => setForm(p => ({ ...p, tone: t }))}
-              className={`px-3 py-1.5 rounded-full text-sm border transition-all duration-150 ${
-                form.tone === t
-                  ? 'bg-white text-black border-white font-semibold'
-                  : 'bg-white/[0.03] text-white/50 border-white/[0.10] hover:border-white/30 hover:text-white/70'
-              }`}
-            >
-              {t}
-            </button>
+            form.tone === t ? (
+              <div key={t}
+                className="relative p-[1.5px] animate-[border-spin_4s_linear_infinite] shrink-0"
+                style={{ borderRadius: '999px', background: 'conic-gradient(from var(--angle, 0deg), transparent 65%, #ff0000 72%, #ffaa00 76%, #00ff88 80%, #0088ff 84%, #cc00ff 88%, transparent 93%)' } as React.CSSProperties}
+              >
+                <button type="button" onClick={() => setForm(p => ({ ...p, tone: t }))}
+                  className="px-3 py-1.5 rounded-full text-sm font-semibold bg-white text-black whitespace-nowrap">
+                  {t}
+                </button>
+              </div>
+            ) : (
+              <button key={t} type="button" onClick={() => setForm(p => ({ ...p, tone: t }))}
+                className="px-3 py-1.5 rounded-full text-sm border bg-white/[0.03] text-white/50 border-white/[0.10] hover:border-white/30 hover:text-white/70 transition-all duration-150">
+                {t}
+              </button>
+            )
           ))}
         </div>
       </div>
@@ -170,10 +175,12 @@ export default function GameForm({ onGenerate, isLoading }: GameFormProps) {
         </div>
       </div>
 
-      <button
+      <ShimmerButton
+        variant="cta"
+        borderRadius="10px"
         type="submit"
         disabled={isLoading || !form.tone}
-        className="w-full bg-white hover:bg-white/90 disabled:bg-white/20 disabled:text-white/50 text-black font-semibold py-3 rounded-lg transition-all duration-150 text-sm"
+        className="w-full py-3 text-sm disabled:opacity-40"
       >
         {isLoading ? (
           <span className="flex items-center justify-center gap-2">
@@ -181,7 +188,7 @@ export default function GameForm({ onGenerate, isLoading }: GameFormProps) {
             Generating...
           </span>
         ) : '✨ Generate Copy'}
-      </button>
+      </ShimmerButton>
     </form>
   )
 }
