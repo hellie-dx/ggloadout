@@ -26,6 +26,14 @@ export default function AppPage() {
   const [error, setError] = useState<string | null>(null)
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved'>('idle')
   const [regenLoading, setRegenLoading] = useState<Record<string, boolean>>({})
+  const [upgraded, setUpgraded] = useState(false)
+
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.search.includes('upgraded=true')) {
+      setUpgraded(true)
+      window.history.replaceState({}, '', '/app')
+    }
+  }, [])
   const supabase = createClient()
 
   const handleSignOut = async () => {
@@ -180,12 +188,31 @@ export default function AppPage() {
                 </div>
               )}
 
+              {upgraded && (
+                <div className="bg-green-500/[0.08] border border-green-500/20 rounded-xl p-4 mb-4 flex items-center gap-3">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-5 h-5 text-green-400 shrink-0"><polyline points="20 6 9 17 4 12"/></svg>
+                  <p className="text-sm text-green-300 font-medium">You&apos;re now Pro! Unlimited generations unlocked. 🎉</p>
+                </div>
+              )}
+
               {error && (
                 <div className="bg-red-500/[0.08] border border-red-500/20 rounded-xl p-4">
                   <p className="text-sm text-red-300">{error}</p>
                   {error.includes('Upgrade') && (
-                    <button className="mt-3 px-4 py-2 rounded-lg bg-white text-black text-sm font-semibold hover:bg-white/90 transition-colors">
-                      Upgrade to Pro — $9/mo
+                    <button
+                      onClick={async () => {
+                        const res = await fetch('/api/paddle/checkout', { method: 'POST' })
+                        const { url } = await res.json()
+                        if (url) window.location.href = url
+                      }}
+                      className="mt-3 w-full"
+                    >
+                      <div className="relative p-[1.5px] rounded-lg" style={{ background: 'linear-gradient(to right, #6644ff, #cc0088)', animation: 'rgb-breathe 4s ease-in-out infinite' }}>
+                        <div className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white rounded-[6px]" style={{ background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}>
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-4 h-4"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                          Upgrade to Pro — $9/mo
+                        </div>
+                      </div>
                     </button>
                   )}
                 </div>
