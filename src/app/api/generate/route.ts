@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextResponse } from 'next/server'
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
-const FREE_DAILY_LIMIT = 99 // temp raised for testing — reset to 3 after
+const FREE_DAILY_LIMIT = 3
 
 export async function POST(request: Request) {
   const supabase = await createClient()
@@ -46,45 +46,54 @@ export async function POST(request: Request) {
   const body = await request.json()
   const { gameName, genre, gameplay, uniqueAngle, tone, features, audience, platforms } = body
 
-  const prompt = `You are an expert game marketing copywriter. Generate store page copy for the following game.
-
-Game Details:
-- Name: ${gameName}
-- Genre: ${genre}
-- Core Gameplay: ${gameplay}
-- Unique Angle: ${uniqueAngle}
-- Tone/Vibe: ${tone}
-- Key Features: ${features}
-- Target Audience: ${audience}
-- Platforms: ${platforms.join(', ')}
-
-Generate copy for each selected platform. Return a JSON object with this exact structure:
-{
-  "steam": {
-    "shortDescription": "max 300 characters",
-    "fullDescription": "full BBCode formatted description, 1500-3000 chars",
-    "features": ["feature 1", "feature 2", "feature 3", "feature 4", "feature 5"],
-    "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"]
-  },
-  "itchio": {
-    "tagline": "short punchy tagline under 60 chars",
-    "fullDescription": "markdown formatted description",
-    "tags": ["tag1", "tag2", "tag3", "tag4", "tag5"]
-  },
-  "appstore": {
-    "shortDescription": "max 80 characters for subtitle",
-    "fullDescription": "max 4000 characters",
-    "keywords": "comma separated keywords"
-  },
-  "googleplay": {
-    "shortDescription": "max 80 characters",
-    "fullDescription": "max 4000 characters",
-    "keywords": "comma separated keywords"
+  const platformInstructions: Record<string, string> = {
+    steam: `"steam": {
+  "shortDescription": "[STEAM ONLY — max 300 chars, no labels, just the description]",
+  "fullDescription": "[STEAM ONLY — BBCode formatted, 1500-3000 chars, use [b][/b] [list][*][/list]]",
+  "features": ["[feature 1]", "[feature 2]", "[feature 3]", "[feature 4]", "[feature 5]"],
+  "tags": ["[tag1]", "[tag2]", "[tag3]", "[tag4]", "[tag5]"]
+}`,
+    itchio: `"itchio": {
+  "tagline": "[ITCH.IO ONLY — punchy tagline, max 60 chars, no labels]",
+  "fullDescription": "[ITCH.IO ONLY — Markdown formatted description]",
+  "tags": ["[tag1]", "[tag2]", "[tag3]", "[tag4]", "[tag5]"]
+}`,
+    appstore: `"appstore": {
+  "shortDescription": "[APP STORE ONLY — subtitle, max 80 chars, no labels]",
+  "fullDescription": "[APP STORE ONLY — plain text, max 4000 chars]",
+  "keywords": "[APP STORE ONLY — comma-separated keywords]"
+}`,
+    googleplay: `"googleplay": {
+  "shortDescription": "[GOOGLE PLAY ONLY — max 80 chars, no labels]",
+  "fullDescription": "[GOOGLE PLAY ONLY — plain text, max 4000 chars]",
+  "keywords": "[GOOGLE PLAY ONLY — comma-separated keywords]"
+}`,
   }
-}
 
-Only include platforms in ${JSON.stringify(platforms)}.
-Return only valid JSON, no markdown code blocks.`
+  const selectedPlatformInstructions = platforms.map((p: string) => platformInstructions[p]).filter(Boolean).join(',\n')
+
+  const prompt = `You are an expert game store copywriter. Write store page copy for this game.
+
+GAME DETAILS:
+Name: ${gameName}
+Genre: ${genre}
+Core Gameplay: ${gameplay}
+Unique Angle: ${uniqueAngle}
+Tone/Vibe: ${tone}
+Key Features: ${features}
+Target Audience: ${audience}
+
+CRITICAL RULES:
+1. Each platform section contains ONLY that platform's content — no cross-platform mixing
+2. Do NOT include platform names like "Steam:", "App Store:" inside any field values
+3. Do NOT combine descriptions from multiple platforms into one field
+4. Each field must be standalone, ready to paste directly into that store
+5. Only include these platforms: ${platforms.join(', ')}
+
+Return ONLY valid JSON (no markdown, no code blocks):
+{
+${selectedPlatformInstructions}
+}`
 
   try {
     const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' })
