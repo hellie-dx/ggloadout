@@ -159,18 +159,22 @@ export default function GameForm({ onGenerate, isLoading }: GameFormProps) {
         <label className={labelClass}>Platforms *</label>
         <div className="flex flex-wrap gap-2">
           {PLATFORMS.map(p => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => togglePlatform(p.id)}
-              className={`px-3 py-1.5 rounded-full text-sm border transition-all duration-150 ${
-                form.platforms.includes(p.id)
-                  ? 'bg-white text-black border-white font-semibold'
-                  : 'bg-white/[0.03] text-white/50 border-white/[0.10] hover:border-white/30 hover:text-white/70'
-              }`}
-            >
-              {p.label}
-            </button>
+            form.platforms.includes(p.id) ? (
+              <div key={p.id}
+                className="relative p-[1.5px] animate-[border-spin_4s_linear_infinite] shrink-0"
+                style={{ borderRadius: '999px', background: 'conic-gradient(from var(--angle, 0deg), transparent 65%, #ff0000 72%, #ffaa00 76%, #00ff88 80%, #0088ff 84%, #cc00ff 88%, transparent 93%)' } as React.CSSProperties}
+              >
+                <button type="button" onClick={() => togglePlatform(p.id)}
+                  className="px-3 py-1.5 rounded-full text-sm font-semibold bg-white text-black whitespace-nowrap">
+                  {p.label}
+                </button>
+              </div>
+            ) : (
+              <button key={p.id} type="button" onClick={() => togglePlatform(p.id)}
+                className="px-3 py-1.5 rounded-full text-sm border bg-white/[0.03] text-white/50 border-white/[0.10] hover:border-white/30 hover:text-white/70 transition-all duration-150">
+                {p.label}
+              </button>
+            )
           ))}
         </div>
       </div>
