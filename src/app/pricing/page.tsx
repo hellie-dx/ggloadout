@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
-import GGLoadoutLogo from '@/components/GGLoadoutLogo'
 import { FloatingParticles } from '@/components/magicui/floating-particles'
+import SiteNav from '@/components/SiteNav'
 
 const rgbText: React.CSSProperties = {
   background: 'linear-gradient(135deg, #ff0000, #ff8800, #ffff00, #00ff88, #0088ff, #8800ff, #ff0088, #ff0000)',
@@ -48,15 +48,7 @@ export default function PricingPage() {
       />
 
       {/* Header */}
-      <header className="relative z-20 px-6 py-5 flex items-center justify-between max-w-6xl mx-auto border-b border-white/[0.07]">
-        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <GGLoadoutLogo size={48} />
-          <span className="text-lg font-bold tracking-widest text-white uppercase">GGLoadout</span>
-        </Link>
-        <Link href="/app" className="text-sm text-white/60 hover:text-white transition-colors">
-          Open App →
-        </Link>
-      </header>
+      <SiteNav />
 
       <main className="relative z-10 max-w-5xl mx-auto px-6 py-20">
 
