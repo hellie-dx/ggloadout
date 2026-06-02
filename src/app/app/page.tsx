@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import GameForm, { GameFormData } from '@/components/GameForm'
 import OutputTabs from '@/components/OutputTabs'
@@ -9,6 +9,15 @@ import GGLoadoutLogo from '@/components/GGLoadoutLogo'
 import { AnimatedGradientText } from '@/components/magicui/animated-gradient-text'
 import Link from 'next/link'
 import { FloatingParticles } from '@/components/magicui/floating-particles'
+
+const rgbText: React.CSSProperties = {
+  background: 'linear-gradient(135deg, #ff0000, #ff8800, #ffff00, #00ff88, #0088ff, #8800ff, #ff0088, #ff0000)',
+  backgroundSize: '400% auto',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+  animation: 'text-color-flow 12s linear infinite, text-glow-pulse 3s ease-in-out infinite',
+}
 
 export default function AppPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -79,7 +88,7 @@ export default function AppPage() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
             <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7">
               <div className="mb-6">
-                <h2 className="text-base font-semibold text-white">Your Game Details</h2>
+                <h2 className="text-base font-semibold" style={rgbText}>Your Game Details</h2>
                 <p className="text-sm text-white/60 mt-1">Fill in once, get copy for all platforms.</p>
               </div>
               <GameForm onGenerate={handleGenerate} isLoading={isLoading} />
@@ -90,7 +99,7 @@ export default function AppPage() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
             <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 sticky top-24">
               <div className="mb-6">
-                <h2 className="text-base font-semibold text-white">Generated Copy</h2>
+                <h2 className="text-base font-semibold" style={rgbText}>Generated Copy</h2>
                 <p className="text-sm text-white/60 mt-1">Ready to paste into your store pages.</p>
               </div>
 
