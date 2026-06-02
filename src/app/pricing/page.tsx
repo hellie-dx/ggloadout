@@ -149,8 +149,9 @@ export default function PricingPage() {
               </ul>
 
               <div
-                className="relative p-[1.5px] rounded-xl"
+                className="relative p-[1.5px]"
                 style={{
+                  borderRadius: '12px',
                   background: 'linear-gradient(to right, #6644ff, #cc0088)',
                   boxShadow: '0 0 18px rgba(102,68,255,0.45), 0 0 36px rgba(204,0,136,0.25)',
                   animation: 'rgb-breathe 4s ease-in-out infinite',
@@ -158,8 +159,8 @@ export default function PricingPage() {
               >
                 <Link
                   href="/app"
-                  className="block w-full text-center px-6 py-3 rounded-[10px] text-white font-semibold text-sm hover:brightness-110 transition-all duration-300"
-                  style={{ background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}
+                  className="block w-full text-center px-6 py-3 text-white font-semibold text-sm hover:brightness-110 transition-all duration-300"
+                  style={{ borderRadius: 'calc(12px - 1.5px)', background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}
                 >
                   Upgrade to Pro
                 </Link>
