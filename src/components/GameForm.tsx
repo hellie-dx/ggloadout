@@ -77,7 +77,7 @@ export default function GameForm({ onGenerate, isLoading }: GameFormProps) {
           value={form.genre}
           onChange={e => setForm(p => ({ ...p, genre: e.target.value }))}
           className={inputClass}
-          style={{ colorScheme: 'dark' }}
+          style={{ colorScheme: 'dark', backgroundColor: '#111111', color: form.genre ? 'white' : 'rgba(255,255,255,0.3)' }}
         >
           <option value="">Select genre...</option>
           {GENRES.map(g => <option key={g} value={g}>{g}</option>)}

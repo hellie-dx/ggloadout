@@ -7,6 +7,7 @@ import OutputTabs from '@/components/OutputTabs'
 import { motion } from 'framer-motion'
 import GGLoadoutLogo from '@/components/GGLoadoutLogo'
 import { AnimatedGradientText } from '@/components/magicui/animated-gradient-text'
+import Link from 'next/link'
 
 export default function AppPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -50,11 +51,11 @@ export default function AppPage() {
 
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-white/[0.07] bg-background/80 backdrop-blur-sm px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <GGLoadoutLogo size={36} />
           <span className="text-base font-bold tracking-widest text-white uppercase">GGLoadout</span>
           <AnimatedGradientText className="!mx-0 text-xs">Beta</AnimatedGradientText>
-        </div>
+        </Link>
         <button
           onClick={handleSignOut}
           className="text-sm text-white/40 hover:text-white/70 transition-colors"
