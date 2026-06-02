@@ -225,7 +225,7 @@ export default function AppPage() {
                       <div className="relative p-[1.5px]" style={{ borderRadius: '8px', background: 'linear-gradient(to right, #6644ff, #cc0088)', animation: 'rgb-breathe 4s ease-in-out infinite' }}>
                         <div className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold text-white" style={{ borderRadius: 'calc(8px - 1.5px)', background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}>
                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-4 h-4"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-                          Upgrade to Pro — $9/mo
+                          Upgrade to Pro — $9/month
                         </div>
                       </div>
                     </button>
