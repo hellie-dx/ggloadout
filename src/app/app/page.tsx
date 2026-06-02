@@ -66,7 +66,7 @@ export default function AppPage() {
         </Link>
         <button
           onClick={handleSignOut}
-          className="text-sm text-white/40 hover:text-white/70 transition-colors"
+          className="text-sm text-white/60 hover:text-white/70 transition-colors"
         >
           Sign out
         </button>
@@ -80,7 +80,7 @@ export default function AppPage() {
             <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7">
               <div className="mb-6">
                 <h2 className="text-base font-semibold text-white">Your Game Details</h2>
-                <p className="text-sm text-white/40 mt-1">Fill in once, get copy for all platforms.</p>
+                <p className="text-sm text-white/60 mt-1">Fill in once, get copy for all platforms.</p>
               </div>
               <GameForm onGenerate={handleGenerate} isLoading={isLoading} />
             </div>
@@ -91,20 +91,20 @@ export default function AppPage() {
             <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 sticky top-24">
               <div className="mb-6">
                 <h2 className="text-base font-semibold text-white">Generated Copy</h2>
-                <p className="text-sm text-white/40 mt-1">Ready to paste into your store pages.</p>
+                <p className="text-sm text-white/60 mt-1">Ready to paste into your store pages.</p>
               </div>
 
               {!output && !error && !isLoading && (
                 <div className="flex flex-col items-center justify-center h-64 text-center">
                   <span className="text-4xl mb-3">🎮</span>
-                  <p className="text-sm text-white/40">Fill in your game details and hit Generate to see your copy here.</p>
+                  <p className="text-sm text-white/60">Fill in your game details and hit Generate to see your copy here.</p>
                 </div>
               )}
 
               {isLoading && (
                 <div className="flex flex-col items-center justify-center h-64 text-center">
                   <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mb-3" />
-                  <p className="text-sm text-white/40">Writing your copy...</p>
+                  <p className="text-sm text-white/60">Writing your copy...</p>
                 </div>
               )}
 

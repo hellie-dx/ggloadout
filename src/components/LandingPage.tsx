@@ -150,7 +150,7 @@ export default function LandingPage() {
       visual: (
         <div className="flex flex-wrap gap-2">
           {['Dark', 'Cozy', 'Funny', 'Intense', 'Chill', 'Epic', 'Mysterious', 'Wholesome'].map(t => (
-            <span key={t} className={`text-xs px-3 py-1.5 rounded-full border ${t === 'Epic' ? 'bg-white text-black border-white font-semibold' : 'border-white/[0.06] text-muted-foreground/60 bg-white/[0.02]'}`}>{t}</span>
+            <span key={t} className={`text-xs px-3 py-1.5 rounded-full border ${t === 'Epic' ? 'bg-white text-black border-white font-semibold' : 'border-white/[0.06] text-muted-foreground/80 bg-white/[0.02]'}`}>{t}</span>
           ))}
         </div>
       ),
@@ -166,7 +166,7 @@ export default function LandingPage() {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="w-4 h-4 text-white/70"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             <span className="text-sm text-white/70 font-medium">✨ Generate Copy</span>
           </div>
-          <span className="text-sm text-muted-foreground/40">~3 sec</span>
+          <span className="text-sm text-muted-foreground/70">~3 sec</span>
         </div>
       ),
     },
@@ -218,10 +218,10 @@ export default function LandingPage() {
             { label: 'Game News', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5"><path d="M4 22h16a2 2 0 002-2V4a2 2 0 00-2-2H8a2 2 0 00-2 2v16a2 2 0 01-2 2zm0 0a2 2 0 01-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8M15 18h-5M10 6h8v4h-8z"/></svg> },
             { label: 'Esports', icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5"><path d="M6 3h12v8a6 6 0 01-12 0V3zM6 7H4a2 2 0 000 4h2M18 7h2a2 2 0 010 4h-2M12 17v4M8 21h8"/></svg> },
           ].map(({ label, icon }) => (
-            <div key={label} className="relative flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium text-white/30 cursor-not-allowed select-none">
+            <div key={label} className="relative flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium text-white/50 cursor-not-allowed select-none">
               {icon}
               {label}
-              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-white/40 font-semibold uppercase tracking-wider leading-none">Soon</span>
+              <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-white/60 font-semibold uppercase tracking-wider leading-none">Soon</span>
             </div>
           ))}
         </nav>
@@ -304,7 +304,7 @@ export default function LandingPage() {
               <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-sm font-bold text-black shrink-0">1</div>
               <h3 className="text-base font-semibold text-foreground">{steps[0].title}</h3>
             </div>
-            <p className="text-sm text-muted-foreground/60 leading-relaxed">{steps[0].desc}</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">{steps[0].desc}</p>
             <div className="rounded-lg border border-white/[0.06] p-4 flex-1">{steps[0].visual}</div>
           </div>
           {/* Card 2 */}
@@ -313,7 +313,7 @@ export default function LandingPage() {
               <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-sm font-bold text-black shrink-0">2</div>
               <h3 className="text-base font-semibold text-foreground">{steps[1].title}</h3>
             </div>
-            <p className="text-sm text-muted-foreground/60 leading-relaxed">{steps[1].desc}</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">{steps[1].desc}</p>
             <div className="rounded-lg border border-white/[0.06] p-4 mt-auto">{steps[1].visual}</div>
           </div>
           {/* Card 3 */}
@@ -322,7 +322,7 @@ export default function LandingPage() {
               <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-sm font-bold text-black shrink-0">3</div>
               <h3 className="text-base font-semibold text-foreground">{steps[2].title}</h3>
             </div>
-            <p className="text-sm text-muted-foreground/60 leading-relaxed">{steps[2].desc}</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed">{steps[2].desc}</p>
             <div className="rounded-lg border border-white/[0.06] p-4 mt-auto">{steps[2].visual}</div>
           </div>
         </div>
@@ -334,7 +334,7 @@ export default function LandingPage() {
               <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-sm font-bold text-black shrink-0">4</div>
               <h3 className="text-base font-semibold text-foreground">Pick platform &amp; paste</h3>
             </div>
-            <p className="text-sm text-muted-foreground/60 leading-relaxed hidden md:block">Switch between platforms below, copy the output — right character limits, right tone, ready to paste.</p>
+            <p className="text-sm text-muted-foreground/80 leading-relaxed hidden md:block">Switch between platforms below, copy the output — right character limits, right tone, ready to paste.</p>
           </div>
           {/* Platform tabs */}
           <div className="flex gap-1 flex-wrap">
@@ -350,10 +350,10 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <div className="text-xs text-muted-foreground/60 uppercase tracking-wide font-semibold">Short Description</div>
+                <div className="text-xs text-muted-foreground/80 uppercase tracking-wide font-semibold">Short Description</div>
                 <button
                   onClick={() => copyText('short', SAMPLE_OUTPUT[samplePlatform].short)}
-                  className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] text-white/40 hover:text-white/70 transition-all duration-150"
+                  className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] text-white/60 hover:text-white/70 transition-all duration-150"
                 >
                   {copiedKey === 'short' ? (
                     <><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-3 h-3 text-green-400"><polyline points="20 6 9 17 4 12"/></svg><span className="text-green-400">Copied</span></>
@@ -368,10 +368,10 @@ export default function LandingPage() {
             </div>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <div className="text-xs text-muted-foreground/60 uppercase tracking-wide font-semibold">Full Description</div>
+                <div className="text-xs text-muted-foreground/80 uppercase tracking-wide font-semibold">Full Description</div>
                 <button
                   onClick={() => copyText('full', SAMPLE_OUTPUT[samplePlatform].full)}
-                  className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] text-white/40 hover:text-white/70 transition-all duration-150"
+                  className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] text-white/60 hover:text-white/70 transition-all duration-150"
                 >
                   {copiedKey === 'full' ? (
                     <><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-3 h-3 text-green-400"><polyline points="20 6 9 17 4 12"/></svg><span className="text-green-400">Copied</span></>
@@ -387,16 +387,16 @@ export default function LandingPage() {
           </div>
           {/* Media requirements */}
           <div className="pt-4 border-t border-white/[0.06]">
-            <div className="text-xs text-muted-foreground/60 uppercase tracking-wide font-semibold mb-3">Media Requirements</div>
+            <div className="text-xs text-muted-foreground/80 uppercase tracking-wide font-semibold mb-3">Media Requirements</div>
             <div className="flex flex-wrap gap-2">
               {MEDIA_REQUIREMENTS[samplePlatform].map(({ item, spec }) => (
                 <div key={item} className="flex items-start gap-2 bg-white/[0.02] border border-white/[0.06] rounded-lg px-3 py-2">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-white/30">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-white/50">
                     <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12l2 2 4-4"/>
                   </svg>
                   <div>
                     <div className="text-xs font-medium text-foreground/80">{item}</div>
-                    <div className="text-[10px] text-muted-foreground/60 mt-0.5">{spec}</div>
+                    <div className="text-[10px] text-muted-foreground/80 mt-0.5">{spec}</div>
                   </div>
                 </div>
               ))}

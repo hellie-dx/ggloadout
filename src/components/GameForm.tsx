@@ -11,7 +11,7 @@ const PLATFORMS = [
   { id: 'googleplay', label: 'Google Play' },
 ]
 
-const inputClass = 'w-full bg-white/[0.05] border border-white/[0.10] rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors'
+const inputClass = 'w-full bg-white/[0.05] border border-white/[0.10] rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/50 focus:outline-none focus:border-white/30 focus:ring-1 focus:ring-white/20 transition-colors'
 const labelClass = 'block text-sm font-medium text-white/60 mb-1.5'
 
 export interface GameFormData {
@@ -173,7 +173,7 @@ export default function GameForm({ onGenerate, isLoading }: GameFormProps) {
       <button
         type="submit"
         disabled={isLoading || !form.tone}
-        className="w-full bg-white hover:bg-white/90 disabled:bg-white/20 disabled:text-white/30 text-black font-semibold py-3 rounded-lg transition-all duration-150 text-sm"
+        className="w-full bg-white hover:bg-white/90 disabled:bg-white/20 disabled:text-white/50 text-black font-semibold py-3 rounded-lg transition-all duration-150 text-sm"
       >
         {isLoading ? (
           <span className="flex items-center justify-center gap-2">

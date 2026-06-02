@@ -67,7 +67,7 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={copy}
-      className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.10] text-white/40 hover:text-white/70 border border-white/[0.07] transition-all duration-150"
+      className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.10] text-white/60 hover:text-white/70 border border-white/[0.07] transition-all duration-150"
     >
       {copied ? (
         <>
@@ -88,7 +88,7 @@ function Section({ label, content }: { label: string; content: string }) {
   return (
     <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <span className="text-[10px] font-semibold text-white/30 uppercase tracking-widest">{label}</span>
+        <span className="text-[10px] font-semibold text-white/50 uppercase tracking-widest">{label}</span>
         <CopyButton text={content} />
       </div>
       <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-sm text-white/70 whitespace-pre-wrap leading-relaxed">
@@ -113,7 +113,7 @@ export default function OutputTabs({ data }: { data: OutputData }) {
             className={`px-4 py-2 text-sm font-medium transition-all duration-150 border-b-2 -mb-px ${
               active === p
                 ? 'border-white text-white'
-                : 'border-transparent text-white/30 hover:text-white/60'
+                : 'border-transparent text-white/50 hover:text-white/60'
             }`}
           >
             {PLATFORM_LABELS[p]}
@@ -167,7 +167,7 @@ export default function OutputTabs({ data }: { data: OutputData }) {
         {/* Media requirements */}
         {MEDIA_REQUIREMENTS[active] && (
           <div className="pt-4 border-t border-white/[0.06]">
-            <div className="text-[10px] font-semibold text-white/30 uppercase tracking-widest mb-3">Media Requirements</div>
+            <div className="text-[10px] font-semibold text-white/50 uppercase tracking-widest mb-3">Media Requirements</div>
             <div className="flex flex-wrap gap-2">
               {MEDIA_REQUIREMENTS[active].map(({ item, spec }) => (
                 <div key={item} className="flex items-start gap-2 bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2">
@@ -176,7 +176,7 @@ export default function OutputTabs({ data }: { data: OutputData }) {
                   </svg>
                   <div>
                     <div className="text-xs font-medium text-white/60">{item}</div>
-                    <div className="text-[10px] text-white/30 mt-0.5">{spec}</div>
+                    <div className="text-[10px] text-white/50 mt-0.5">{spec}</div>
                   </div>
                 </div>
               ))}
