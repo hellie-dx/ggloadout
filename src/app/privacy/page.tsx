@@ -2,6 +2,15 @@ import React from 'react'
 import { FloatingParticles } from '@/components/magicui/floating-particles'
 import SiteNav from '@/components/SiteNav'
 
+const rgbText: React.CSSProperties = {
+  background: 'linear-gradient(135deg, #ff0000, #ff8800, #ffff00, #00ff88, #0088ff, #8800ff, #ff0088, #ff0000)',
+  backgroundSize: '400% auto',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+  animation: 'text-color-flow 12s linear infinite, text-glow-pulse 3s ease-in-out infinite',
+}
+
 export default function PrivacyPage() {
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -10,7 +19,7 @@ export default function PrivacyPage() {
         style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(120,80,255,0.18) 0%, rgba(0,200,255,0.08) 60%, transparent 100%)' }} />
       <SiteNav />
       <main className="relative z-10 max-w-3xl mx-auto px-6 py-16">
-        <h1 className="text-4xl font-bold text-white mb-2">Privacy Policy</h1>
+        <h1 className="text-4xl font-bold mb-2" style={rgbText}>Privacy Policy</h1>
         <p className="text-white/40 text-sm mb-12">Last updated: June 2, 2026</p>
 
         <div className="space-y-10 text-white/70 text-sm leading-relaxed">

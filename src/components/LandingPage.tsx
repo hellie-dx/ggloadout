@@ -530,7 +530,12 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <span className="text-primary font-bold">GGLoadout</span>
           <p className="text-sm text-muted-foreground">Made for indie devs who care about their launch 🎮</p>
-          <p className="text-xs text-muted-foreground">© 2026 GGLoadout</p>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <a href="/terms" className="hover:text-white/70 transition-colors">Terms</a>
+            <a href="/privacy" className="hover:text-white/70 transition-colors">Privacy</a>
+            <a href="/refund" className="hover:text-white/70 transition-colors">Refund</a>
+            <span>© 2026 GGLoadout</span>
+          </div>
         </div>
       </footer>
 
