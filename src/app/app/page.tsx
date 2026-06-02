@@ -22,7 +22,10 @@ const rgbText: React.CSSProperties = {
 export default function AppPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [output, setOutput] = useState<Record<string, unknown> | null>(null)
+  const [formData, setFormData] = useState<GameFormData | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved'>('idle')
+  const [regenLoading, setRegenLoading] = useState<Record<string, boolean>>({})
   const supabase = createClient()
 
   const handleSignOut = async () => {
@@ -30,25 +33,25 @@ export default function AppPage() {
     window.location.href = '/'
   }
 
-  const handleGenerate = async (formData: GameFormData) => {
+  const handleGenerate = async (data: GameFormData) => {
     setIsLoading(true)
     setError(null)
     setOutput(null)
+    setSaveState('idle')
+    setFormData(data)
 
     const res = await fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
+      body: JSON.stringify(data),
     })
 
     const json = await res.json()
 
     if (!res.ok) {
-      if (json.error === 'LIMIT_REACHED') {
-        setError("You've used your 3 free generations today. Upgrade to Pro for unlimited access.")
-      } else {
-        setError('Something went wrong. Please try again.')
-      }
+      setError(json.error === 'LIMIT_REACHED'
+        ? "You've used your 3 free generations today. Upgrade to Pro for unlimited access."
+        : 'Something went wrong. Please try again.')
     } else {
       setOutput(json.data)
     }
@@ -56,27 +59,56 @@ export default function AppPage() {
     setIsLoading(false)
   }
 
+  const handleSave = async () => {
+    if (!output || !formData) return
+    setSaveState('saving')
+    const res = await fetch('/api/save-generation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ formData, output }),
+    })
+    setSaveState(res.ok ? 'saved' : 'idle')
+    if (res.ok) setTimeout(() => setSaveState('idle'), 3000)
+  }
+
+  const handleRegenBlock = async (platform: string, block: string) => {
+    if (!formData || !output) return
+    const key = `${platform}:${block}`
+    setRegenLoading(prev => ({ ...prev, [key]: true }))
+
+    const res = await fetch('/api/regenerate-block', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ formData, platform, block }),
+    })
+
+    if (res.ok) {
+      const { content } = await res.json()
+      setOutput(prev => {
+        if (!prev) return prev
+        const platformData = { ...(prev[platform] as Record<string, unknown>) }
+        platformData[block] = content
+        return { ...prev, [platform]: platformData }
+      })
+    }
+
+    setRegenLoading(prev => ({ ...prev, [key]: false }))
+  }
+
   return (
     <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
 
-      {/* Background — matches landing page */}
       <FloatingParticles count={50} />
-      <div
-        className="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] pointer-events-none z-0"
-        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(120,80,255,0.18) 0%, rgba(0,200,255,0.08) 60%, transparent 100%)' }}
-      />
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] pointer-events-none z-0"
+        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(120,80,255,0.18) 0%, rgba(0,200,255,0.08) 60%, transparent 100%)' }} />
 
-      {/* Header */}
       <header className="relative sticky top-0 z-20 border-b border-white/[0.07] bg-background/80 backdrop-blur-sm px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <GGLoadoutLogo size={36} />
           <span className="text-base font-bold tracking-widest text-white uppercase">GGLoadout</span>
           <AnimatedGradientText className="!mx-0 text-xs">Beta</AnimatedGradientText>
         </Link>
-        <button
-          onClick={handleSignOut}
-          className="text-sm text-white/60 hover:text-white/70 transition-colors"
-        >
+        <button onClick={handleSignOut} className="text-sm text-white/60 hover:text-white/70 transition-colors">
           Sign out
         </button>
       </header>
@@ -98,9 +130,40 @@ export default function AppPage() {
           {/* Output card */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.1 }}>
             <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 sticky top-24">
-              <div className="mb-6">
-                <h2 className="text-base font-semibold" style={rgbText}>Generated Copy</h2>
-                <p className="text-sm text-white/60 mt-1">Ready to paste into your store pages.</p>
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-base font-semibold" style={rgbText}>Generated Copy</h2>
+                  <p className="text-sm text-white/60 mt-1">Ready to paste into your store pages.</p>
+                </div>
+                {output && (
+                  <button
+                    onClick={handleSave}
+                    disabled={saveState === 'saving' || saveState === 'saved'}
+                    className="shrink-0"
+                  >
+                    {saveState === 'saved' ? (
+                      <div className="relative p-[1.5px] animate-[border-spin_4s_linear_infinite]"
+                        style={{ borderRadius: '8px', background: 'conic-gradient(from var(--angle, 0deg), transparent 65%, #ff0000 72%, #ffaa00 76%, #00ff88 80%, #0088ff 84%, #cc00ff 88%, transparent 93%)' } as React.CSSProperties}>
+                        <div className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-black bg-white rounded-[6px]">
+                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-3.5 h-3.5"><polyline points="20 6 9 17 4 12"/></svg>
+                          Saved
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="relative p-[1.5px]"
+                        style={{ borderRadius: '8px', background: 'linear-gradient(to right, #6644ff, #cc0088)', animation: 'rgb-breathe 4s ease-in-out infinite' } as React.CSSProperties}>
+                        <div className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white rounded-[6px]"
+                          style={{ background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}>
+                          {saveState === 'saving' ? (
+                            <><svg className="animate-spin w-3.5 h-3.5" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="31.4" strokeLinecap="round"/></svg>Saving...</>
+                          ) : (
+                            <><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Save</>
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </button>
+                )}
               </div>
 
               {!output && !error && !isLoading && (
@@ -128,7 +191,14 @@ export default function AppPage() {
                 </div>
               )}
 
-              {output && <OutputTabs data={output as Parameters<typeof OutputTabs>[0]['data']} />}
+              {output && (
+                <OutputTabs
+                  data={output as Parameters<typeof OutputTabs>[0]['data']}
+                  formData={formData as unknown as Record<string, unknown>}
+                  onRegenBlock={handleRegenBlock}
+                  regenLoading={regenLoading}
+                />
+              )}
             </div>
           </motion.div>
 
