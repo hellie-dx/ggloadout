@@ -1,6 +1,16 @@
+import React from 'react'
 import Link from 'next/link'
 import GGLoadoutLogo from '@/components/GGLoadoutLogo'
 import { FloatingParticles } from '@/components/magicui/floating-particles'
+
+const rgbText: React.CSSProperties = {
+  background: 'linear-gradient(135deg, #ff0000, #ff8800, #ffff00, #00ff88, #0088ff, #8800ff, #ff0088, #ff0000)',
+  backgroundSize: '400% auto',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+  animation: 'text-color-flow 12s linear infinite, text-glow-pulse 3s ease-in-out infinite',
+}
 
 const FREE_FEATURES = [
   '3 generations per day',
@@ -51,7 +61,7 @@ export default function PricingPage() {
         {/* Heading */}
         <div className="text-center mb-16">
           <p className="text-sm text-white/50 font-semibold uppercase tracking-widest mb-3">Pricing</p>
-          <h1 className="text-5xl font-bold mb-5 text-white">Simple, honest pricing</h1>
+          <h1 className="text-5xl font-bold mb-5 text-white">Simple, <span style={rgbText}>honest</span> pricing</h1>
           <p className="text-lg text-white/60 max-w-xl mx-auto">
             Start free. Upgrade when you need more. Cancel anytime.
           </p>
