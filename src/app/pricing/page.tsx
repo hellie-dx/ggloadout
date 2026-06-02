@@ -97,7 +97,7 @@ export default function PricingPage() {
           </div>
 
           {/* Pro */}
-          <div className="relative rounded-2xl overflow-hidden flex flex-col">
+          <div className="relative rounded-2xl flex flex-col">
             {/* RGB border */}
             <div className="absolute inset-0 p-[1.5px] rounded-2xl" style={rgbBorder}>
               <div className="w-full h-full rounded-[14px] bg-[#111111]" />
