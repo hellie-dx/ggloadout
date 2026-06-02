@@ -102,10 +102,11 @@ export interface GameFormData {
 interface GameFormProps {
   onGenerate: (data: GameFormData) => void
   isLoading: boolean
+  initialData?: GameFormData | null
 }
 
-export default function GameForm({ onGenerate, isLoading }: GameFormProps) {
-  const [form, setForm] = useState<GameFormData>({
+export default function GameForm({ onGenerate, isLoading, initialData }: GameFormProps) {
+  const [form, setForm] = useState<GameFormData>(initialData ?? {
     gameName: '',
     genre: '',
     gameplay: '',

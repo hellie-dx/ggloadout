@@ -26,6 +26,7 @@ export default function AppPage() {
   const [error, setError] = useState<string | null>(null)
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved'>('idle')
   const [regenLoading, setRegenLoading] = useState<Record<string, boolean>>({})
+  const [formKey, setFormKey] = useState(0)
   const [upgraded, setUpgraded] = useState(false)
 
   React.useEffect(() => {
@@ -43,7 +44,9 @@ export default function AppPage() {
           .then(({ data }) => {
             if (data) {
               setOutput(data.output as Record<string, unknown>)
-              setFormData(data.form_data as GameFormData)
+              const loaded = data.form_data as GameFormData
+              setFormData(loaded)
+              setFormKey(k => k + 1) // force GameForm to reinitialize with saved inputs
             }
           })
       }
@@ -164,7 +167,7 @@ export default function AppPage() {
                 <h2 className="text-base font-semibold" style={rgbText}>Your Game Details</h2>
                 <p className="text-sm text-white/60 mt-1">Fill in once, get copy for all platforms.</p>
               </div>
-              <GameForm onGenerate={handleGenerate} isLoading={isLoading} />
+              <GameForm key={formKey} onGenerate={handleGenerate} isLoading={isLoading} initialData={formData} />
             </div>
           </motion.div>
 
