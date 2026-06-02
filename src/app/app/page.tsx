@@ -29,9 +29,24 @@ export default function AppPage() {
   const [upgraded, setUpgraded] = useState(false)
 
   React.useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.search.includes('upgraded=true')) {
-      setUpgraded(true)
-      window.history.replaceState({}, '', '/app')
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      if (params.get('upgraded') === 'true') {
+        setUpgraded(true)
+        window.history.replaceState({}, '', '/app')
+      }
+      // Load a saved generation
+      const loadId = params.get('load')
+      if (loadId) {
+        window.history.replaceState({}, '', '/app')
+        supabase.from('generations').select('*').eq('id', loadId).single()
+          .then(({ data }) => {
+            if (data) {
+              setOutput(data.output as Record<string, unknown>)
+              setFormData(data.form_data as GameFormData)
+            }
+          })
+      }
     }
   }, [])
   const supabase = createClient()
@@ -120,6 +135,20 @@ export default function AppPage() {
           <span className="text-base font-bold tracking-widest text-white uppercase">GGLoadout</span>
           <AnimatedGradientText className="!mx-0 text-xs">Beta</AnimatedGradientText>
         </Link>
+        <nav className="hidden md:flex items-center gap-1">
+          <Link href="/app" className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium text-white/80 hover:text-white hover:bg-white/[0.06] transition-all duration-150">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Generate
+          </Link>
+          <Link href="/app/saves" className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium text-white/80 hover:text-white hover:bg-white/[0.06] transition-all duration-150">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            My Saves
+          </Link>
+          <Link href="/pricing" className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium text-white/80 hover:text-white hover:bg-white/[0.06] transition-all duration-150">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+            Pricing
+          </Link>
+        </nav>
         <button onClick={handleSignOut} className="text-sm text-white/60 hover:text-white/70 transition-colors">
           Sign out
         </button>
