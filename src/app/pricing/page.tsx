@@ -167,7 +167,7 @@ export default function PricingPage() {
 
         {/* FAQ */}
         <div className="mt-20 max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold text-white text-center mb-10">Common questions</h2>
+          <h2 className="text-2xl font-bold text-center mb-10"><span style={rgbText}>Frequently Asked Questions</span></h2>
           <div className="space-y-6">
             {[
               {
