@@ -66,22 +66,32 @@ function CopyButton({ text }: { text: string }) {
     setTimeout(() => setCopied(false), 2000)
   }
   return (
-    <button
-      onClick={copy}
-      className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.10] text-white/60 hover:text-white/70 border border-white/[0.07] transition-all duration-150"
+    <div
+      className="relative p-[1.5px]"
+      style={{
+        borderRadius: '6px',
+        background: copied ? 'linear-gradient(to right, #00aa44, #00cc66)' : 'linear-gradient(to right, #6644ff, #cc0088)',
+        animation: 'rgb-breathe 4s ease-in-out infinite',
+      } as React.CSSProperties}
     >
-      {copied ? (
-        <>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3 h-3 text-green-400"><polyline points="20 6 9 17 4 12"/></svg>
-          <span className="text-green-400">Copied</span>
-        </>
-      ) : (
-        <>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3 h-3"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
-          Copy
-        </>
-      )}
-    </button>
+      <button
+        onClick={copy}
+        className="flex items-center gap-1.5 text-xs px-2.5 py-1 font-medium text-white rounded-[4px] whitespace-nowrap"
+        style={{ background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}
+      >
+        {copied ? (
+          <>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-3 h-3 text-green-400"><polyline points="20 6 9 17 4 12"/></svg>
+            <span className="text-green-400">Copied</span>
+          </>
+        ) : (
+          <>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3 h-3"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copy
+          </>
+        )}
+      </button>
+    </div>
   )
 }
 
