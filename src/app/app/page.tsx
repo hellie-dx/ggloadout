@@ -8,6 +8,7 @@ import { motion } from 'framer-motion'
 import GGLoadoutLogo from '@/components/GGLoadoutLogo'
 import { AnimatedGradientText } from '@/components/magicui/animated-gradient-text'
 import Link from 'next/link'
+import { FloatingParticles } from '@/components/magicui/floating-particles'
 
 export default function AppPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -47,10 +48,17 @@ export default function AppPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="relative min-h-screen bg-background text-foreground overflow-x-hidden">
+
+      {/* Background — matches landing page */}
+      <FloatingParticles count={50} />
+      <div
+        className="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] pointer-events-none z-0"
+        style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(120,80,255,0.18) 0%, rgba(0,200,255,0.08) 60%, transparent 100%)' }}
+      />
 
       {/* Header */}
-      <header className="sticky top-0 z-20 border-b border-white/[0.07] bg-background/80 backdrop-blur-sm px-6 py-4 flex items-center justify-between">
+      <header className="relative sticky top-0 z-20 border-b border-white/[0.07] bg-background/80 backdrop-blur-sm px-6 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
           <GGLoadoutLogo size={36} />
           <span className="text-base font-bold tracking-widest text-white uppercase">GGLoadout</span>
@@ -64,7 +72,7 @@ export default function AppPage() {
         </button>
       </header>
 
-      <main className="max-w-6xl mx-auto px-4 py-8">
+      <main className="relative z-10 max-w-6xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
 
           {/* Form card */}
