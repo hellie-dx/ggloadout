@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai'
 import { NextResponse } from 'next/server'
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
-const FREE_DAILY_LIMIT = 3
+const FREE_DAILY_LIMIT = 99 // temp raised for testing — reset to 3 after
 
 export async function POST(request: Request) {
   const supabase = await createClient()
