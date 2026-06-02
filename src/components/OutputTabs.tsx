@@ -77,7 +77,7 @@ function CopyButton({ text }: { text: string }) {
     return (
       <div className="relative p-[1.5px] animate-[border-spin_4s_linear_infinite]"
         style={{ borderRadius: '6px', background: 'conic-gradient(from var(--angle, 0deg), transparent 65%, #ff0000 72%, #ffaa00 76%, #00ff88 80%, #0088ff 84%, #cc00ff 88%, transparent 93%)' } as React.CSSProperties}>
-        <button className="flex items-center gap-1.5 text-xs px-2.5 py-1 font-semibold text-black rounded-[4px] bg-white whitespace-nowrap">
+        <button className="flex items-center gap-1.5 text-xs px-2.5 py-1 font-semibold text-black bg-white whitespace-nowrap" style={{ borderRadius: 'calc(6px - 1.5px)' }}>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-3 h-3"><polyline points="20 6 9 17 4 12"/></svg>
           Copied
         </button>
@@ -89,8 +89,8 @@ function CopyButton({ text }: { text: string }) {
     <div className="relative p-[1.5px]"
       style={{ borderRadius: '6px', background: 'linear-gradient(to right, #6644ff, #cc0088)', animation: 'rgb-breathe 4s ease-in-out infinite' } as React.CSSProperties}>
       <button onClick={copy}
-        className="flex items-center gap-1.5 text-xs px-2.5 py-1 font-medium text-white rounded-[4px] whitespace-nowrap"
-        style={{ background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}>
+        className="flex items-center gap-1.5 text-xs px-2.5 py-1 font-medium text-white whitespace-nowrap"
+        style={{ borderRadius: 'calc(6px - 1.5px)', background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3 h-3"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
         Copy
       </button>
@@ -166,8 +166,8 @@ export default function OutputTabs({ data, formData, onRegenBlock, regenLoading 
             <div key={p} className="relative p-[1.5px]"
               style={{ borderRadius: '8px', background: 'linear-gradient(to right, #6644ff, #cc0088)', boxShadow: '0 0 14px rgba(102,68,255,0.35), 0 0 28px rgba(204,0,136,0.18)', animation: 'rgb-breathe 4s ease-in-out infinite' } as React.CSSProperties}>
               <button onClick={() => setActive(p)}
-                className="px-4 py-1.5 text-sm font-semibold text-white rounded-[6px] whitespace-nowrap"
-                style={{ background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}>
+                className="px-4 py-1.5 text-sm font-semibold text-white whitespace-nowrap"
+                style={{ borderRadius: 'calc(8px - 1.5px)', background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}>
                 {PLATFORM_LABELS[p]}
               </button>
             </div>
