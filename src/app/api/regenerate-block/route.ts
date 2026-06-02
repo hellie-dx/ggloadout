@@ -5,31 +5,54 @@ import { NextResponse } from 'next/server'
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
 const BLOCK_PROMPTS: Record<string, (form: Record<string, string>, platform: string) => string> = {
-  shortDescription: (f, p) => `Write a new short description for a ${f.genre} game called "${f.gameName}" on ${p}.
-Tone: ${f.tone}. Gameplay: ${f.gameplay}. Unique angle: ${f.uniqueAngle}.
-Platform limits: Steam=300 chars, App Store/Google Play=80 chars, itch.io=tagline under 60 chars.
-Return ONLY the description text, nothing else.`,
+  shortDescription: (f, p) => `You are rewriting ONE specific field for ONE specific platform store page.
 
-  fullDescription: (f, p) => `Write a new full store description for a ${f.genre} game called "${f.gameName}" on ${p}.
-Tone: ${f.tone}. Gameplay: ${f.gameplay}. Unique angle: ${f.uniqueAngle}. Features: ${f.features}. Audience: ${f.audience}.
-${p === 'steam' ? 'Use BBCode formatting ([b], [i], [list], [*]).' : p === 'itchio' ? 'Use Markdown formatting.' : 'Plain text, up to 4000 chars.'}
-Return ONLY the description text, nothing else.`,
+GAME: "${f.gameName}" — ${f.genre} game, tone: ${f.tone}
+Gameplay: ${f.gameplay}
+Unique angle: ${f.uniqueAngle}
 
-  features: (f) => `List 5 key features for a ${f.genre} game called "${f.gameName}".
-Gameplay: ${f.gameplay}. Features hint: ${f.features}. Tone: ${f.tone}.
-Return ONLY a JSON array of 5 strings, e.g. ["Feature one", "Feature two", ...]`,
+TASK: Write a new SHORT DESCRIPTION for ${p.toUpperCase()} ONLY.
+${p === 'steam' ? 'Max 300 characters.' : p === 'appstore' ? 'Max 80 characters (subtitle).' : p === 'googleplay' ? 'Max 80 characters.' : 'Max 60 characters (tagline).'}
 
-  tags: (f, p) => `Generate 5 relevant store tags for a ${f.genre} game called "${f.gameName}" on ${p}.
+CRITICAL RULES:
+- Write ONLY for ${p.toUpperCase()} — do NOT mention or include content for any other platform
+- Do NOT add labels like "Steam:", "App Store:", "itch.io:" — just the text itself
+- Return ONLY the description text, no explanation, no labels
+
+OUTPUT:`,
+
+  fullDescription: (f, p) => `You are rewriting ONE specific field for ONE specific platform store page.
+
+GAME: "${f.gameName}" — ${f.genre} game, tone: ${f.tone}
+Gameplay: ${f.gameplay}. Unique angle: ${f.uniqueAngle}. Features: ${f.features}. Audience: ${f.audience}
+
+TASK: Write a new FULL DESCRIPTION for ${p.toUpperCase()} ONLY.
+${p === 'steam' ? 'Use BBCode formatting ([b], [i], [list][*][/list]). 1500-3000 chars.' : p === 'itchio' ? 'Use Markdown formatting.' : 'Plain text, max 4000 chars.'}
+
+CRITICAL RULES:
+- Write ONLY for ${p.toUpperCase()} — do NOT mention or include content for any other platform
+- Do NOT add labels like "Steam:", "itch.io:", "App Store:" — just the description itself
+- Return ONLY the description text, no explanation, no labels
+
+OUTPUT:`,
+
+  features: (f) => `List 5 new key features for a ${f.genre} game called "${f.gameName}".
+Gameplay: ${f.gameplay}. Features: ${f.features}. Tone: ${f.tone}.
+Return ONLY a JSON array of exactly 5 strings. No labels, no explanation.
+Example: ["Feature one", "Feature two", "Feature three", "Feature four", "Feature five"]`,
+
+  tags: (f, p) => `Generate 5 store tags for a ${f.genre} game called "${f.gameName}" for ${p}.
 Gameplay: ${f.gameplay}. Tone: ${f.tone}.
-Return ONLY a JSON array of 5 tag strings, e.g. ["rpg", "fantasy", ...]`,
+Return ONLY a JSON array of exactly 5 lowercase tag strings. No labels, no explanation.
+Example: ["rpg", "idle", "fantasy", "wholesome", "strategy"]`,
 
-  tagline: (f) => `Write a punchy tagline under 60 characters for a ${f.genre} game called "${f.gameName}".
+  tagline: (f) => `Write a new punchy tagline under 60 characters for a ${f.genre} game called "${f.gameName}" (itch.io).
 Tone: ${f.tone}. Unique angle: ${f.uniqueAngle}.
-Return ONLY the tagline text, nothing else.`,
+Return ONLY the tagline text. No labels, no explanation.`,
 
-  keywords: (f) => `Generate comma-separated App Store/Google Play keywords for a ${f.genre} game called "${f.gameName}".
+  keywords: (f, p) => `Generate comma-separated ${p === 'appstore' ? 'App Store' : 'Google Play'} keywords for a ${f.genre} game called "${f.gameName}".
 Gameplay: ${f.gameplay}. Audience: ${f.audience}.
-Return ONLY the keywords as a comma-separated string.`,
+Return ONLY a comma-separated string of keywords. No labels, no explanation.`,
 }
 
 export async function POST(request: Request) {
