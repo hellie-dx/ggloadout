@@ -1,7 +1,77 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { ShimmerButton } from '@/components/magicui/shimmer-button'
+
+const rgbText: React.CSSProperties = {
+  background: 'linear-gradient(135deg, #ff0000, #ff8800, #ffff00, #00ff88, #0088ff, #8800ff, #ff0088, #ff0000)',
+  backgroundSize: '400% auto',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  backgroundClip: 'text',
+  animation: 'text-color-flow 12s linear infinite',
+}
+
+function GenreSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen(o => !o)}
+        className="w-full bg-white/[0.05] border border-white/[0.10] rounded-lg px-3 py-2.5 text-sm text-left flex items-center justify-between focus:outline-none focus:border-white/30 transition-colors hover:border-white/20"
+      >
+        {value ? (
+          <span style={rgbText} className="font-semibold">{value}</span>
+        ) : (
+          <span className="text-white/50">Select genre...</span>
+        )}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+          className={`w-4 h-4 text-white/40 shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}>
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
+
+      {open && (
+        <div className="absolute z-50 mt-1.5 w-full rounded-xl bg-[#111111] border border-white/[0.10] shadow-2xl shadow-black/60 overflow-hidden">
+          {GENRES.map(g => (
+            <button
+              key={g}
+              type="button"
+              onClick={() => { onChange(g); setOpen(false) }}
+              className={`w-full text-left px-4 py-2.5 text-sm transition-all duration-100 flex items-center justify-between group
+                ${value === g
+                  ? 'bg-white/[0.08]'
+                  : 'hover:bg-white/[0.05]'
+                }`}
+            >
+              {value === g ? (
+                <span style={rgbText} className="font-semibold">{g}</span>
+              ) : (
+                <span className="text-white/70 group-hover:text-white transition-colors">{g}</span>
+              )}
+              {value === g && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-3.5 h-3.5 shrink-0 text-white/60">
+                  <polyline points="20 6 9 17 4 12"/>
+                </svg>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
 
 const GENRES = ['RPG', 'FPS', 'Puzzle', 'Platformer', 'Strategy', 'Simulation', 'Horror', 'Adventure', 'Sports', 'Other']
 const TONES = ['Dark', 'Cozy', 'Funny', 'Intense', 'Chill', 'Epic', 'Mysterious', 'Wholesome']
@@ -73,16 +143,7 @@ export default function GameForm({ onGenerate, isLoading }: GameFormProps) {
 
       <div>
         <label className={labelClass}>Genre *</label>
-        <select
-          required
-          value={form.genre}
-          onChange={e => setForm(p => ({ ...p, genre: e.target.value }))}
-          className={inputClass}
-          style={{ colorScheme: 'dark', backgroundColor: '#111111', color: form.genre ? 'white' : 'rgba(255,255,255,0.3)' }}
-        >
-          <option value="">Select genre...</option>
-          {GENRES.map(g => <option key={g} value={g}>{g}</option>)}
-        </select>
+        <GenreSelect value={form.genre} onChange={v => setForm(p => ({ ...p, genre: v }))} />
       </div>
 
       <div>
