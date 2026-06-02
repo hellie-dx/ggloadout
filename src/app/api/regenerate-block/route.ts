@@ -5,21 +5,14 @@ import { NextResponse } from 'next/server'
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
 const BLOCK_PROMPTS: Record<string, (form: Record<string, string>, platform: string) => string> = {
-  shortDescription: (f, p) => `You are rewriting ONE specific field for ONE specific platform store page.
-
-GAME: "${f.gameName}" — ${f.genre} game, tone: ${f.tone}
-Gameplay: ${f.gameplay}
-Unique angle: ${f.uniqueAngle}
-
-TASK: Write a new SHORT DESCRIPTION for ${p.toUpperCase()} ONLY.
-${p === 'steam' ? 'Max 300 characters.' : p === 'appstore' ? 'Max 80 characters (subtitle).' : p === 'googleplay' ? 'Max 80 characters.' : 'Max 60 characters (tagline).'}
-
-CRITICAL RULES:
-- Write ONLY for ${p.toUpperCase()} — do NOT mention or include content for any other platform
-- Do NOT add labels like "Steam:", "App Store:", "itch.io:" — just the text itself
-- Return ONLY the description text, no explanation, no labels
-
-OUTPUT:`,
+  shortDescription: (f, p) => {
+    const limit = p === 'steam' ? '300 characters max' : p === 'appstore' ? '80 characters max (subtitle)' : p === 'googleplay' ? '80 characters max' : '60 characters max (tagline)'
+    return `Write a short description for the ${p} store page only.
+Game: "${f.gameName}", ${f.genre}, tone: ${f.tone}.
+Gameplay: ${f.gameplay}. Unique angle: ${f.uniqueAngle}.
+Limit: ${limit}.
+Return only the text. No platform labels. No other platforms.`
+  },
 
   fullDescription: (f, p) => `You are rewriting ONE specific field for ONE specific platform store page.
 
