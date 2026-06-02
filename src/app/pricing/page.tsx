@@ -118,9 +118,8 @@ export default function PricingPage() {
               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-gradient-to-b from-violet-500/10 to-transparent pointer-events-none rounded-t-2xl" />
 
               <div className="relative mb-6">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="text-sm text-white/50 font-medium">Pro</div>
-                  <span className="text-[10px] px-2 py-0.5 rounded-full bg-white/[0.08] border border-white/[0.12] text-white/60 font-semibold uppercase tracking-wider">Most popular</span>
+                <div className="mb-2">
+                  <span className="text-sm font-semibold" style={rgbText}>Pro</span>
                 </div>
                 <div className="flex items-end gap-2">
                   <span className="text-6xl font-bold text-white">$9</span>
@@ -149,13 +148,18 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <div className="relative">
-                <div className="p-[1.5px] rounded-xl" style={rgbBorder}>
-                  <Link href="/app" className="block w-full text-center px-6 py-3 rounded-[10px] text-white font-semibold text-sm" style={{ background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}>
-                    Upgrade to Pro
-                  </Link>
-                </div>
-              </div>
+              <Link
+                href="/app"
+                className="block w-full text-center px-6 py-3 rounded-xl text-white font-semibold text-sm"
+                style={{
+                  background: 'rgba(10,10,16,0.88)',
+                  backdropFilter: 'blur(12px)',
+                  boxShadow: '0 0 0 1.5px #6644ff, 0 0 0 1.5px #cc0088',
+                  animation: 'rgb-breathe 4s ease-in-out infinite',
+                }}
+              >
+                Upgrade to Pro
+              </Link>
             </div>
           </div>
 
