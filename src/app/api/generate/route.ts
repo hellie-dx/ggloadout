@@ -16,36 +16,41 @@ export async function POST(request: Request) {
 
   const profile = await supabase
     .from('profiles')
-    .select('is_pro')
+    .select('is_pro, is_admin')
     .eq('id', user.id)
     .single()
 
   const isPro = profile.data?.is_pro ?? false
-  const dailyLimit = isPro ? PRO_DAILY_LIMIT : FREE_DAILY_LIMIT
+  const isAdmin = profile.data?.is_admin ?? false
 
-  const today = new Date().toISOString().split('T')[0]
-  const { data: usage } = await supabase
-    .from('usage')
-    .select('count')
-    .eq('user_id', user.id)
-    .eq('date', today)
-    .single()
+  // Admins have unlimited access — skip all limit checks
+  if (!isAdmin) {
+    const dailyLimit = isPro ? PRO_DAILY_LIMIT : FREE_DAILY_LIMIT
 
-  const currentCount = usage?.count ?? 0
+    const today = new Date().toISOString().split('T')[0]
+    const { data: usage } = await supabase
+      .from('usage')
+      .select('count')
+      .eq('user_id', user.id)
+      .eq('date', today)
+      .single()
 
-  if (currentCount >= dailyLimit) {
-    return NextResponse.json({
-      error: 'LIMIT_REACHED',
-      isPro,
-      limit: dailyLimit,
-    }, { status: 429 })
+    const currentCount = usage?.count ?? 0
+
+    if (currentCount >= dailyLimit) {
+      return NextResponse.json({
+        error: 'LIMIT_REACHED',
+        isPro,
+        limit: dailyLimit,
+      }, { status: 429 })
+    }
+
+    await supabase.from('usage').upsert({
+      user_id: user.id,
+      date: today,
+      count: currentCount + 1,
+    }, { onConflict: 'user_id,date' })
   }
-
-  await supabase.from('usage').upsert({
-    user_id: user.id,
-    date: today,
-    count: currentCount + 1,
-  }, { onConflict: 'user_id,date' })
 
   const body = await request.json()
   const { gameName, genre, gameplay, uniqueAngle, tone, features, audience, platforms } = body
