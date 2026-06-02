@@ -148,18 +148,22 @@ export default function PricingPage() {
                 ))}
               </ul>
 
-              <Link
-                href="/app"
-                className="block w-full text-center px-6 py-3 rounded-xl text-white font-semibold text-sm"
+              <div
+                className="relative p-[1.5px] rounded-xl"
                 style={{
-                  background: 'rgba(10,10,16,0.88)',
-                  backdropFilter: 'blur(12px)',
-                  boxShadow: '0 0 0 1.5px #6644ff, 0 0 0 1.5px #cc0088',
+                  background: 'linear-gradient(to right, #6644ff, #cc0088)',
+                  boxShadow: '0 0 18px rgba(102,68,255,0.45), 0 0 36px rgba(204,0,136,0.25)',
                   animation: 'rgb-breathe 4s ease-in-out infinite',
-                }}
+                } as React.CSSProperties}
               >
-                Upgrade to Pro
-              </Link>
+                <Link
+                  href="/app"
+                  className="block w-full text-center px-6 py-3 rounded-[10px] text-white font-semibold text-sm hover:brightness-110 transition-all duration-300"
+                  style={{ background: 'rgba(10,10,16,0.88)', backdropFilter: 'blur(12px)' }}
+                >
+                  Upgrade to Pro
+                </Link>
+              </div>
             </div>
           </div>
 
