@@ -31,6 +31,17 @@ interface Profile {
   is_admin: boolean
 }
 
+interface Subscription {
+  plan: 'free' | 'pro'
+  status?: string
+  nextBilledAt?: string
+  billingCycle?: { interval: string; frequency: number }
+  unitPrice?: string
+  currency?: string
+  canceledAt?: string | null
+  managementUrl?: string | null
+}
+
 const PLATFORM_LABELS: Record<string, string> = { steam: 'Steam', itchio: 'itch.io', appstore: 'App Store', googleplay: 'Google Play' }
 const PLATFORM_KEYS = Object.keys(PLATFORM_LABELS)
 
@@ -41,6 +52,7 @@ export default function ProfilePage() {
   const [loadingSaves, setLoadingSaves] = useState(true)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [usageToday, setUsageToday] = useState(0)
+  const [subscription, setSubscription] = useState<Subscription | null>(null)
   const supabase = createClient()
 
   const handleSignOut = async () => {
@@ -61,6 +73,9 @@ export default function ProfilePage() {
       const today = new Date().toISOString().split('T')[0]
       supabase.from('usage').select('count').eq('user_id', user.id).eq('date', today).single()
         .then(({ data }) => setUsageToday(data?.count ?? 0))
+
+      // Subscription
+      fetch('/api/paddle/subscription').then(r => r.json()).then(setSubscription)
 
       // Saves
       supabase.from('generations').select('*').order('created_at', { ascending: false })
@@ -156,6 +171,83 @@ export default function ProfilePage() {
                 </button>
               </div>
             </div>
+          </div>
+        </motion.div>
+
+        {/* Billing section */}
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, delay: 0.15 }}>
+          <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7">
+            <h2 className="text-lg font-bold mb-6" style={rgbText}>Subscription & Billing</h2>
+
+            {!subscription && (
+              <div className="flex items-center gap-2 text-white/40 text-sm">
+                <div className="w-4 h-4 border-2 border-white/20 border-t-white/50 rounded-full animate-spin" />
+                Loading...
+              </div>
+            )}
+
+            {subscription?.plan === 'free' && (
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-sm font-semibold text-white mb-1">Free Plan</div>
+                  <div className="text-xs text-white/40">3 generations per day · no credit card required</div>
+                </div>
+                <Link href="/pricing"
+                  className="text-xs px-4 py-2 rounded-lg font-semibold text-white/70 border border-white/[0.10] hover:border-white/20 hover:text-white transition-all duration-150">
+                  Upgrade to Pro →
+                </Link>
+              </div>
+            )}
+
+            {subscription?.plan === 'pro' && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+                    <div className="text-[10px] text-white/40 uppercase tracking-wider mb-1">Plan</div>
+                    <div className="text-sm font-semibold text-white">Pro</div>
+                  </div>
+                  <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+                    <div className="text-[10px] text-white/40 uppercase tracking-wider mb-1">Status</div>
+                    <div className={`text-sm font-semibold capitalize ${subscription.status === 'active' ? 'text-green-400' : subscription.status === 'canceled' ? 'text-red-400' : 'text-amber-400'}`}>
+                      {subscription.status ?? '—'}
+                    </div>
+                  </div>
+                  <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+                    <div className="text-[10px] text-white/40 uppercase tracking-wider mb-1">Amount</div>
+                    <div className="text-sm font-semibold text-white">
+                      {subscription.unitPrice ? `$${(parseInt(subscription.unitPrice) / 100).toFixed(2)} / mo` : '—'}
+                    </div>
+                  </div>
+                  <div className="bg-white/[0.03] border border-white/[0.06] rounded-lg p-3">
+                    <div className="text-[10px] text-white/40 uppercase tracking-wider mb-1">
+                      {subscription.status === 'canceled' ? 'Access Until' : 'Next Billing'}
+                    </div>
+                    <div className="text-sm font-semibold text-white">
+                      {subscription.nextBilledAt
+                        ? new Date(subscription.nextBilledAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                        : '—'}
+                    </div>
+                  </div>
+                </div>
+
+                {subscription.status === 'active' && subscription.managementUrl && (
+                  <div className="flex items-center gap-3 pt-2">
+                    <a href={subscription.managementUrl} target="_blank" rel="noopener noreferrer"
+                      className="text-xs px-4 py-2 rounded-lg text-red-400/70 border border-red-400/20 hover:text-red-400 hover:border-red-400/40 transition-all duration-150">
+                      Cancel subscription
+                    </a>
+                    <span className="text-xs text-white/30">You keep Pro access until the end of your billing period.</span>
+                  </div>
+                )}
+
+                {subscription.status === 'canceled' && (
+                  <div className="flex items-center gap-2 p-3 rounded-lg bg-amber-500/[0.06] border border-amber-500/20">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-4 h-4 text-amber-400 shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    <span className="text-xs text-amber-300">Subscription cancelled. Pro access continues until the date above.</span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </motion.div>
 
