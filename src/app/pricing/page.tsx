@@ -12,22 +12,24 @@ const rgbText: React.CSSProperties = {
   animation: 'text-color-flow 12s linear infinite, text-glow-pulse 3s ease-in-out infinite',
 }
 
-const FREE_FEATURES = [
-  '3 generations per day',
+// Same in both plans — shown in grey
+const SHARED_FEATURES = [
   'All 4 platforms (Steam, itch.io, App Store, Google Play)',
   'Steam 2026 AI disclosure text',
   'Block-level regeneration',
   'Copy to clipboard',
+]
+
+// Free-only features — normal white
+const FREE_ONLY = [
+  '3 generations per day',
   'No credit card required',
 ]
 
-const PRO_FEATURES = [
+// Pro-only features — RGB animated text
+const PRO_ONLY = [
   '50 generations per day',
-  'All 4 platforms (Steam, itch.io, App Store, Google Play)',
-  'Steam 2026 AI disclosure text',
-  'Block-level regeneration',
   'Save generations to account',
-  'Copy to clipboard',
   'Priority support',
 ]
 
@@ -81,9 +83,18 @@ export default function PricingPage() {
             </div>
 
             <ul className="space-y-3 mb-8 flex-1">
-              {FREE_FEATURES.map(f => (
-                <li key={f} className="flex items-start gap-3 text-sm text-white/70">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white/40 shrink-0 mt-0.5">
+              {FREE_ONLY.map(f => (
+                <li key={f} className="flex items-center gap-3 text-sm text-white/80">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white/50 shrink-0">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  {f}
+                </li>
+              ))}
+              <li className="border-t border-white/[0.06] pt-3" />
+              {SHARED_FEATURES.map(f => (
+                <li key={f} className="flex items-center gap-3 text-sm text-white/35">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white/20 shrink-0">
                     <polyline points="20 6 9 17 4 12"/>
                   </svg>
                   {f}
@@ -119,9 +130,18 @@ export default function PricingPage() {
               </div>
 
               <ul className="space-y-3 mb-8 flex-1 relative">
-                {PRO_FEATURES.map(f => (
-                  <li key={f} className="flex items-start gap-3 text-sm text-white/70">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white shrink-0 mt-0.5">
+                {PRO_ONLY.map(f => (
+                  <li key={f} className="flex items-center gap-3 text-sm font-semibold">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(255,255,255,0.4))' }}>
+                      <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                    <span style={rgbText}>{f}</span>
+                  </li>
+                ))}
+                <li className="border-t border-white/[0.06] pt-3" />
+                {SHARED_FEATURES.map(f => (
+                  <li key={f} className="flex items-center gap-3 text-sm text-white/35">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-4 h-4 text-white/20 shrink-0">
                       <polyline points="20 6 9 17 4 12"/>
                     </svg>
                     {f}
