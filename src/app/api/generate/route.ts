@@ -87,7 +87,7 @@ Only include platforms in ${JSON.stringify(platforms)}.
 Return only valid JSON, no markdown code blocks.`
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
+    const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' })
     const result = await model.generateContent(prompt)
     const text = result.response.text()
     const cleaned = text.replace(/```json\n?|\n?```/g, '').trim()
