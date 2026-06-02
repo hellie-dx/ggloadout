@@ -87,7 +87,7 @@ Only include platforms in ${JSON.stringify(platforms)}.
 Return only valid JSON, no markdown code blocks.`
 
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
     const result = await model.generateContent(prompt)
     const text = result.response.text()
     const cleaned = text.replace(/```json\n?|\n?```/g, '').trim()
@@ -95,7 +95,8 @@ Return only valid JSON, no markdown code blocks.`
 
     return NextResponse.json({ success: true, data: generated })
   } catch (error) {
-    console.error('Generation error:', error)
-    return NextResponse.json({ error: 'Generation failed' }, { status: 500 })
+    const msg = error instanceof Error ? error.message : String(error)
+    console.error('Generation error full:', msg)
+    return NextResponse.json({ error: 'Generation failed', detail: msg }, { status: 500 })
   }
 }
