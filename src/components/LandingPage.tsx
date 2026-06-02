@@ -272,13 +272,10 @@ export default function LandingPage() {
           </p>
         </motion.div>
 
-        {/* Bento: card 1 tall-left, cards 2 & 3 stack right */}
-        <div
-          className="grid gap-4 mb-4"
-          style={{ gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto', gridTemplateAreas: '"a b" "a c"' }}
-        >
-          {/* Card 1 — spans both rows */}
-          <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-5" style={{ gridArea: 'a' }}>
+        {/* Bento: card 1 tall-left, cards 2 & 3 stack right — stacks on mobile */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          {/* Card 1 — spans both rows on desktop */}
+          <div className="md:row-span-2 rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-5 transition-all duration-200 hover:-translate-y-1 hover:border-white/[0.15] hover:shadow-xl hover:shadow-black/40 cursor-default">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-sm font-bold text-black shrink-0">1</div>
               <h3 className="text-base font-semibold text-foreground">{steps[0].title}</h3>
@@ -287,7 +284,7 @@ export default function LandingPage() {
             <div className="rounded-lg border border-white/[0.06] p-4 flex-1">{steps[0].visual}</div>
           </div>
           {/* Card 2 */}
-          <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-5" style={{ gridArea: 'b' }}>
+          <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-5 transition-all duration-200 hover:-translate-y-1 hover:border-white/[0.15] hover:shadow-xl hover:shadow-black/40 cursor-default">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-sm font-bold text-black shrink-0">2</div>
               <h3 className="text-base font-semibold text-foreground">{steps[1].title}</h3>
@@ -296,7 +293,7 @@ export default function LandingPage() {
             <div className="rounded-lg border border-white/[0.06] p-4 mt-auto">{steps[1].visual}</div>
           </div>
           {/* Card 3 */}
-          <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-5" style={{ gridArea: 'c' }}>
+          <div className="rounded-xl bg-[#111111] border border-white/[0.07] p-7 flex flex-col gap-5 transition-all duration-200 hover:-translate-y-1 hover:border-white/[0.15] hover:shadow-xl hover:shadow-black/40 cursor-default">
             <div className="flex items-center gap-3">
               <div className="w-9 h-9 rounded-full bg-white flex items-center justify-center text-sm font-bold text-black shrink-0">3</div>
               <h3 className="text-base font-semibold text-foreground">{steps[2].title}</h3>

@@ -26,6 +26,30 @@ interface OutputData {
   }
 }
 
+const MEDIA_REQUIREMENTS: Record<string, { item: string; spec: string }[]> = {
+  steam: [
+    { item: 'Screenshots', spec: '6 required · 1280×720 or 2560×1440' },
+    { item: 'Capsule image', spec: '460×215 px' },
+    { item: 'Header capsule', spec: '460×215 px' },
+    { item: 'Main capsule', spec: '616×353 px' },
+    { item: 'Trailer', spec: 'Optional · MP4 recommended' },
+  ],
+  itchio: [
+    { item: 'Cover image', spec: '315×250 px recommended' },
+    { item: 'Screenshots', spec: 'Up to 7 · any ratio' },
+  ],
+  appstore: [
+    { item: '6.7" Screenshots', spec: '1290×2796 px · 6 required' },
+    { item: 'iPad screenshots', spec: 'Required if universal app' },
+    { item: 'App preview video', spec: 'Optional · 15–30 seconds' },
+  ],
+  googleplay: [
+    { item: 'Screenshots', spec: '8 minimum · 1080×1920 portrait' },
+    { item: 'Feature graphic', spec: '1024×500 px · required' },
+    { item: 'Promo video', spec: 'Optional · YouTube URL' },
+  ],
+}
+
 const PLATFORM_LABELS: Record<string, string> = {
   steam: 'Steam',
   itchio: 'itch.io',
@@ -43,21 +67,31 @@ function CopyButton({ text }: { text: string }) {
   return (
     <button
       onClick={copy}
-      className="text-xs px-2 py-1 rounded bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors"
+      className="flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-md bg-white/[0.06] hover:bg-white/[0.10] text-white/40 hover:text-white/70 border border-white/[0.07] transition-all duration-150"
     >
-      {copied ? '✓ Copied' : 'Copy'}
+      {copied ? (
+        <>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3 h-3 text-green-400"><polyline points="20 6 9 17 4 12"/></svg>
+          <span className="text-green-400">Copied</span>
+        </>
+      ) : (
+        <>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3 h-3"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          Copy
+        </>
+      )}
     </button>
   )
 }
 
 function Section({ label, content }: { label: string; content: string }) {
   return (
-    <div className="mb-4">
-      <div className="flex items-center justify-between mb-1">
-        <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{label}</span>
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <span className="text-[10px] font-semibold text-white/30 uppercase tracking-widest">{label}</span>
         <CopyButton text={content} />
       </div>
-      <div className="bg-gray-50 rounded-lg p-3 text-sm text-gray-800 whitespace-pre-wrap border border-gray-100">
+      <div className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-4 text-sm text-white/70 whitespace-pre-wrap leading-relaxed">
         {content}
       </div>
     </div>
@@ -70,15 +104,16 @@ export default function OutputTabs({ data }: { data: OutputData }) {
 
   return (
     <div>
-      <div className="flex gap-1 mb-4 border-b border-gray-200">
+      {/* Platform tabs */}
+      <div className="flex gap-0.5 mb-5 border-b border-white/[0.07]">
         {availablePlatforms.map(p => (
           <button
             key={p}
             onClick={() => setActive(p)}
-            className={`px-4 py-2 text-sm font-medium transition-colors border-b-2 -mb-px ${
+            className={`px-4 py-2 text-sm font-medium transition-all duration-150 border-b-2 -mb-px ${
               active === p
-                ? 'border-violet-600 text-violet-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700'
+                ? 'border-white text-white'
+                : 'border-transparent text-white/30 hover:text-white/60'
             }`}
           >
             {PLATFORM_LABELS[p]}
@@ -86,42 +121,69 @@ export default function OutputTabs({ data }: { data: OutputData }) {
         ))}
       </div>
 
-      {active === 'steam' && data.steam && (
-        <div>
-          <Section label="Short Description (300 chars)" content={data.steam.shortDescription} />
-          <Section label="Full Description (BBCode)" content={data.steam.fullDescription} />
-          <Section label="Key Features" content={data.steam.features.join('\n')} />
-          <Section label="Tags" content={data.steam.tags.join(', ')} />
-          <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
-            <strong>⚠️ Steam AI Disclosure:</strong> This copy was AI-generated. Per Valve&apos;s 2026 rules, check the AI disclosure box in your store page setup and add: <em>&quot;Store page descriptions generated with AI writing assistance.&quot;</em>
-            <CopyButton text='Store page descriptions generated with AI writing assistance.' />
+      {/* Content */}
+      <div className="space-y-4">
+        {active === 'steam' && data.steam && (
+          <>
+            <Section label="Short Description (300 chars)" content={data.steam.shortDescription} />
+            <Section label="Full Description (BBCode)" content={data.steam.fullDescription} />
+            <Section label="Key Features" content={data.steam.features.join('\n')} />
+            <Section label="Tags" content={data.steam.tags.join(', ')} />
+            <div className="flex items-start gap-3 p-4 rounded-xl bg-amber-500/[0.06] border border-amber-500/20 text-xs text-amber-300/80">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-4 h-4 shrink-0 mt-0.5 text-amber-400"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              <span>
+                <strong className="text-amber-300">Steam AI Disclosure required.</strong> Per Valve&apos;s 2026 rules, check the AI disclosure box in your store page setup and add:{' '}
+                <em>&quot;Store page descriptions generated with AI writing assistance.&quot;</em>
+              </span>
+              <CopyButton text="Store page descriptions generated with AI writing assistance." />
+            </div>
+          </>
+        )}
+
+        {active === 'itchio' && data.itchio && (
+          <>
+            <Section label="Tagline" content={data.itchio.tagline} />
+            <Section label="Full Description (Markdown)" content={data.itchio.fullDescription} />
+            <Section label="Tags" content={data.itchio.tags.join(', ')} />
+          </>
+        )}
+
+        {active === 'appstore' && data.appstore && (
+          <>
+            <Section label="Subtitle (80 chars)" content={data.appstore.shortDescription} />
+            <Section label="Full Description" content={data.appstore.fullDescription} />
+            <Section label="Keywords" content={data.appstore.keywords} />
+          </>
+        )}
+
+        {active === 'googleplay' && data.googleplay && (
+          <>
+            <Section label="Short Description (80 chars)" content={data.googleplay.shortDescription} />
+            <Section label="Full Description" content={data.googleplay.fullDescription} />
+            <Section label="Keywords" content={data.googleplay.keywords} />
+          </>
+        )}
+
+        {/* Media requirements */}
+        {MEDIA_REQUIREMENTS[active] && (
+          <div className="pt-4 border-t border-white/[0.06]">
+            <div className="text-[10px] font-semibold text-white/30 uppercase tracking-widest mb-3">Media Requirements</div>
+            <div className="flex flex-wrap gap-2">
+              {MEDIA_REQUIREMENTS[active].map(({ item, spec }) => (
+                <div key={item} className="flex items-start gap-2 bg-white/[0.03] border border-white/[0.06] rounded-lg px-3 py-2">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5 shrink-0 mt-0.5 text-white/20">
+                    <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12l2 2 4-4"/>
+                  </svg>
+                  <div>
+                    <div className="text-xs font-medium text-white/60">{item}</div>
+                    <div className="text-[10px] text-white/30 mt-0.5">{spec}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
-
-      {active === 'itchio' && data.itchio && (
-        <div>
-          <Section label="Tagline" content={data.itchio.tagline} />
-          <Section label="Full Description (Markdown)" content={data.itchio.fullDescription} />
-          <Section label="Tags" content={data.itchio.tags.join(', ')} />
-        </div>
-      )}
-
-      {active === 'appstore' && data.appstore && (
-        <div>
-          <Section label="Subtitle (80 chars)" content={data.appstore.shortDescription} />
-          <Section label="Full Description" content={data.appstore.fullDescription} />
-          <Section label="Keywords" content={data.appstore.keywords} />
-        </div>
-      )}
-
-      {active === 'googleplay' && data.googleplay && (
-        <div>
-          <Section label="Short Description (80 chars)" content={data.googleplay.shortDescription} />
-          <Section label="Full Description" content={data.googleplay.fullDescription} />
-          <Section label="Keywords" content={data.googleplay.keywords} />
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
