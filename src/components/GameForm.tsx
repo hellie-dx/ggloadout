@@ -14,6 +14,7 @@ const rgbText: React.CSSProperties = {
 
 function GenreSelect({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const [open, setOpen] = useState(false)
+  const [hovered, setHovered] = useState<string | null>(null)
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -44,29 +45,31 @@ function GenreSelect({ value, onChange }: { value: string; onChange: (v: string)
 
       {open && (
         <div className="absolute z-50 mt-1.5 w-full rounded-xl bg-[#111111] border border-white/[0.10] shadow-2xl shadow-black/60 overflow-hidden">
-          {GENRES.map(g => (
-            <button
-              key={g}
-              type="button"
-              onClick={() => { onChange(g); setOpen(false) }}
-              className={`w-full text-left px-4 py-2.5 text-sm transition-all duration-100 flex items-center justify-between group
-                ${value === g
-                  ? 'bg-white/[0.08]'
-                  : 'hover:bg-white/[0.05]'
-                }`}
-            >
-              {value === g ? (
-                <span style={rgbText} className="font-semibold">{g}</span>
-              ) : (
-                <span className="text-white/70 group-hover:text-white transition-colors">{g}</span>
-              )}
-              {value === g && (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-3.5 h-3.5 shrink-0 text-white/60">
-                  <polyline points="20 6 9 17 4 12"/>
-                </svg>
-              )}
-            </button>
-          ))}
+          {GENRES.map(g => {
+            const isActive = value === g
+            const isHovered = hovered === g
+            return (
+              <button
+                key={g}
+                type="button"
+                onClick={() => { onChange(g); setOpen(false) }}
+                onMouseEnter={() => setHovered(g)}
+                onMouseLeave={() => setHovered(null)}
+                className={`w-full text-left px-4 py-2.5 text-sm transition-all duration-100 flex items-center justify-between ${isActive || isHovered ? 'bg-white/[0.06]' : ''}`}
+              >
+                {isActive || isHovered ? (
+                  <span style={rgbText} className={isActive ? 'font-semibold' : ''}>{g}</span>
+                ) : (
+                  <span className="text-white/60">{g}</span>
+                )}
+                {isActive && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" className="w-3.5 h-3.5 shrink-0 text-white/50">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                )}
+              </button>
+            )
+          })}
         </div>
       )}
     </div>
