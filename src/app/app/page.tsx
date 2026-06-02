@@ -9,6 +9,7 @@ import GGLoadoutLogo from '@/components/GGLoadoutLogo'
 import { AnimatedGradientText } from '@/components/magicui/animated-gradient-text'
 import Link from 'next/link'
 import { FloatingParticles } from '@/components/magicui/floating-particles'
+import AppHeader from '@/components/AppHeader'
 
 const rgbText: React.CSSProperties = {
   background: 'linear-gradient(135deg, #ff0000, #ff8800, #ffff00, #00ff88, #0088ff, #8800ff, #ff0088, #ff0000)',
@@ -132,29 +133,7 @@ export default function AppPage() {
       <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] pointer-events-none z-0"
         style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 0%, rgba(120,80,255,0.18) 0%, rgba(0,200,255,0.08) 60%, transparent 100%)' }} />
 
-      <header className="relative sticky top-0 z-20 border-b border-white/[0.07] bg-background/80 backdrop-blur-sm px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-          <GGLoadoutLogo size={36} />
-          <span className="text-base font-bold tracking-widest text-white uppercase">GGLoadout</span>
-          <AnimatedGradientText className="!mx-0 text-xs">Beta</AnimatedGradientText>
-        </Link>
-        <nav className="hidden md:flex items-center gap-1">
-          <Link href="/app" className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium text-white/80 hover:text-white hover:bg-white/[0.06] transition-all duration-150">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            Generate
-          </Link>
-          <Link href="/pricing" className="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium text-white/80 hover:text-white hover:bg-white/[0.06] transition-all duration-150">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-3.5 h-3.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-            Pricing
-          </Link>
-        </nav>
-        {/* Profile avatar → profile page */}
-        <Link href="/app/profile" className="w-9 h-9 rounded-full bg-white/[0.08] border border-white/[0.12] flex items-center justify-center hover:bg-white/[0.15] transition-all duration-150">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="w-4 h-4 text-white/70">
-            <circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-          </svg>
-        </Link>
-      </header>
+      <AppHeader activePage="generate" />
 
       <main className="relative z-10 max-w-6xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
